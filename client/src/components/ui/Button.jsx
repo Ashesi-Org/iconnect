@@ -5,7 +5,7 @@ const Button = ({ type, onClick, children, className, style, icon }) => {
 
   switch (type) {
     case 'primary':
-      buttonClasses += ' bg-app-green text-app-hover-green p-10';
+      buttonClasses += ' bg-app-brown text-app-hover-green p-10';
       break;
     case 'secondary':
       buttonClasses += ' bg-app-background-1 text-app-hover-green border-1 border-app-hover-green opacity-75';

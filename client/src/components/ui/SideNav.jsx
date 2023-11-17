@@ -1,7 +1,7 @@
 import { LogOut } from "lucide-react";
 import { Logo } from "./Logo";
 import { useState} from "react";
-import { DASHBOARD, HOME, PLAYGROUND } from "../../utils/Routes";
+import { DASHBOARD, HOME, COMPLAINTS, ROOMS } from "../../utils/Routes";
 import { useNavigate } from "react-router-dom";
 
 export const SideNav = ({ profile, tabIcons }) => {
@@ -9,7 +9,7 @@ export const SideNav = ({ profile, tabIcons }) => {
   return (
     <div className="text-white py-5 bg-app-background-2 w-[50px] sticky bottom-0 h-screen max-h-screen shadow-app_shadow flex flex-col items-center justify-between">
       <div className="flex flex-col item-center w-full justify-center">
-        <Logo width={"120px"} height={"120px"} />
+        <Logo width={"50px"} height={"50px"} />
       </div>
 
       <div className="flex flex-col items-center space-y-2 w-full">
@@ -63,7 +63,11 @@ export const TabButton = ({ icon, index, isActive, setActiveTab }) => {
         navigate(HOME);
         break;
       case 1:
-        navigate(PLAYGROUND);
+        navigate(COMPLAINTS);
+        break;
+
+      case 2:
+        navigate(ROOMS);
         break;
       default:
         break;

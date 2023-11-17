@@ -1,12 +1,10 @@
-import Complaint from "../../components/complaints/Complaint"
-import { HelpingHand, Home, Layers, Settings, Contact,HelpCircle } from "lucide-react";
+import { Nfc, Home, Layers, Settings, Contact,HelpCircle } from "lucide-react";
 // components
 import { AppLayout } from "../../components/ui/AppLayout";
 import { SideNav } from "../../components/ui/SideNav";
 import { ContentScrollable } from "../../components/ui/ContentScrollable";
 import ComplaintsContent from "../../components/complaints/ComplaintsContent";
 import { CourseData } from "../../utils/Data";
-import Header from "../../components/header/Header";
 import TopTagBar from "../../components/complaints/TopTagBar";
 
 
@@ -27,7 +25,7 @@ const Complaints = () => {
                 className="text-app-white group-active:scale-90 transition-all duration-50 ease-in"
                 size={20}
               />,
-              <HelpingHand
+              <Nfc
                 className="text-app-white group-active:scale-90 transition-all duration-50 ease-in"
                 size={20}
               />,

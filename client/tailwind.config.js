@@ -25,7 +25,7 @@ export default {
         app_shadow:
           "inset 0 0 0.5px 1px hsla(0, 0%, 100%, 0.075), 0 0 0 1px hsla(0, 0%, 0%, 0.05),0 0.3px 0.4px hsla(0, 0%, 0%, 0.02),0 0.9px 1.5px hsla(0, 0%, 0%, 0.045),0 3.5px 6px hsla(0, 0%, 0%, 0.09)",
         grid_shadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
-        card_shadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
+        card_shadow: "0px 1px 1px 1px rgba(0, 0, 0, 0.05)",
         card_2_shadow: "5px 6px 10.1px 0px rgba(0, 0, 0, 0.25)",
 
       },

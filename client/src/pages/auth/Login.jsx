@@ -44,7 +44,7 @@ const Login = () => {
                 </div>
         
                 <div className="p-5 pt-8 flex flex-col gap-2">
-                    <Button type="primary" className={`text-lg text-app-white bg-input-bg-color  hover:bg-app-hover-green flex justify-center`}>Login</Button>
+                    <Button type="primary" className={`text-lg text-white bg-app-brown  hover:bg-app-hover-green flex justify-center`}>Login</Button>
                 </div>
                 <div className="text-lg text-center text-app-white">
                     Continue with your socials
@@ -60,7 +60,7 @@ const Login = () => {
                     </Button>
                 </div>
                   <div className="text-sm text-center pb-2 text-gray-400">
-                    Don't have an account yet? <span className=" cursor-pointer  text-white"> Register</span>
+                    Don't have an account yet? <span className=" cursor-pointer  text-app-green"> Register</span>
                 </div>
             </AuthFieldsContainer>
            
