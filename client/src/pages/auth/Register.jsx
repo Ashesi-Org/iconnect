@@ -74,7 +74,7 @@ const Register = () => {
  
                 </div>
                  <div className="text-sm text-center pb-2 text-gray-400">
-                        Already have an account yet? <span className=" cursor-pointer  text-white"> Login</span>
+                        Already have an account yet? <span className=" cursor-pointer  text-app-green   "> Login</span>
                 </div>
             </AuthFieldsContainer>
         </div>
