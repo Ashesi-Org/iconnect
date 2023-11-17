@@ -1,0 +1,64 @@
+@import url("https://fonts.googleapis.com/css?family=Google+Sans:200,300,400,500,600,700,900");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* PremiumPlanModal */
+.premium-plan-modal {
+  background: #09090a81;
+  backdrop-filter: blur(2px);
+}
+
+
+
+.selected {
+    color: #800000; 
+}
+
+.navlinks ul li {
+    margin-left: 4rem;
+}
+
+.navlinks ul li:last-child {
+    margin-left: 10rem;
+}
+
+.navlinks {
+    width: 1132px;
+}
+
+
+
+.vr {
+    border-right: 1px solid #D9D9D9;
+}
+
+.hr {
+    border-bottom: 1px solid #D9D9D9;
+}
+
+.notification__header {
+    border-bottom: 1px solid #D9D9D9;
+}
+
+
+body{
+  background-color: #282B30;
+  font-family: "Poppins",sans-serif;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
