@@ -1,8 +1,9 @@
-import RoomAvatar from "@/components/room/RoomAvatar";
+
 import React from "react";
 import { useQueryClient } from "react-query";
+import RoomAvatar from "../components/hotline-room/RoomAvatar";
 
-const useSplitUsersIntoSections = ({room}) => {
+const useSplitUsersIntoSections = (room) => {
   const queryClient = useQueryClient();
 
   const speakers = [];

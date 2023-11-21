@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import AuthFieldsContainer from "../../components/auth/AuthFieldsContainer";
 import Input from "../../components/ui/Input";
 import { Logo } from "../../components/ui/Logo";
-import Button from "../../components/ui/Button";
+import ButtonM from "../../components/ui/ButtonM";
 import google from "../../assets/google.png"
-import CircularBase from "../../components/auth/CircularBase";
+import useScreenType from "../../hooks/useScreenType";
+import { WebSocketContext } from "../../contexts/WebsocketContext";
+
+const width = 400;
+const height = 500;
 
 const Login = () => {
     const [inputValue, setInputValue] = useState("");
@@ -13,6 +17,40 @@ const Login = () => {
         setInputValue(e.target.value);
     };
 
+
+    //TODO: GOOGLE AUTH LOGIN HELPER FUNCTION
+    const myDevice = useScreenType();
+
+    const left =
+        typeof window !== "undefined" && window.innerWidth / 2 - width / 2;
+    const top =
+        typeof window !== "undefined" && window.innerHeight / 2 - height / 2;
+
+    const googleLogin = () => {
+        myDevice == "isDesktop"
+        ? window.open(
+            `${"http://localhost:8000/auth/google"
+                // process.env.NODE_ENV == "production"
+                // ? `${process.env.REACT_APP_PROD_API}/auth/google`
+                // : `${process.env.REACT_APP_DEV_API}/auth/google`
+            }`,
+            "",
+            `toolbar=no, location=no, directories=no, status=no, menubar=no, 
+    scrollbars=no, resizable=no, copyhistory=no, width=${width}, 
+    height=${height}, top=${top}, left=${left}`
+            )
+        : window.location.replace(
+            `${
+                "http://localhost:8000/auth/google"
+                // process.env.NODE_ENV == "production"
+                // ? `${process.env.REACT_APP_PROD_API}/auth/google`
+                // : `${process.env.REACT_APP_DEV_API}/auth/google`
+            }`
+            );
+    };
+
+
+    const { conn } = useContext(WebSocketContext);
     return (
         <div className="bg-app-background-1 w-screen h-screen flex justify-center place-content-center items-center">
             
@@ -44,20 +82,20 @@ const Login = () => {
                 </div>
         
                 <div className="p-5 pt-8 flex flex-col gap-2">
-                    <Button type="primary" className={`text-lg text-white bg-app-brown  hover:bg-app-hover-green flex justify-center`}>Login</Button>
+                    <ButtonM type="primary" className={`text-lg text-white bg-app-brown  hover:bg-app-hover-green flex justify-center`}>Login</ButtonM>
                 </div>
                 <div className="text-lg text-center text-app-white">
                     Continue with your socials
                 </div>
                 <div className="p-5 flex gap-10 justify-between items-center">
 
-                    <Button type="primary"  className={`p-5 bg-input-bg-color`} icon={<img src={google} height={20} width={20} alt="Google Icon" />}>
+                    <ButtonM onClick={() => {googleLogin();}} type="primary"  className={`p-5 bg-input-bg-color`} icon={<img src={google} height={20} width={20} alt="Google Icon" />}>
                         Continue with Google
-                    </Button>
+                    </ButtonM>
                         <span>OR</span>
-                    <Button type="primary" className={`p-5 bg-input-bg-color`} icon={<img src={google} height={20} width={20} alt="Google Icon" />}>
+                    <ButtonM type="primary" className={`p-5 bg-input-bg-color`} icon={<img src={google} height={20} width={20} alt="Google Icon" />}>
                         Continue with facebook 
-                    </Button>
+                    </ButtonM>
                 </div>
                   <div className="text-sm text-center pb-2 text-gray-400">
                     Don't have an account yet? <span className=" cursor-pointer  text-app-green"> Register</span>

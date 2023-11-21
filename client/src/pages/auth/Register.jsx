@@ -4,8 +4,8 @@ import React, { useState } from "react";
 import AuthFieldsContainer from "../../components/auth/AuthFieldsContainer";
 import Input from "../../components/ui/Input";
 import { Logo } from "../../components/ui/Logo";
-import Button from "../../components/ui/Button";
 import google from "../../assets/google.png"
+import ButtonM from "../../components/ui/ButtonM";
 
 const Register = () => {
     const [inputValue, setInputValue] = useState("");
@@ -60,17 +60,17 @@ const Register = () => {
                     />
                 </div>
                 <div className="p-5 flex flex-col gap-2">
-                    <Button type="primary" className={`text-lg text-app-white bg-input-bg-color  hover:bg-app-hover-green flex justify-center`}>Register</Button>
+                    <ButtonM type="primary" className={`text-lg text-app-white bg-input-bg-color  hover:bg-app-hover-green flex justify-center`}>Register</ButtonM>
                 </div>
                 <div className="p-5 flex gap-10 justify-between items-center">
 
-                    <Button type="primary"  className={`p-5 bg-input-bg-color`} icon={<img src={google} height={20} width={20} alt="Google Icon" />}>
+                    <ButtonM type="primary"  className={`p-5 bg-input-bg-color`} icon={<img src={google} height={20} width={20} alt="Google Icon" />}>
                         Continue with Google
-                    </Button>
+                    </ButtonM>
                         <span>OR</span>
-                    <Button type="primary" className={`p-5 bg-input-bg-color`} icon={<img src={google} height={20} width={20} alt="Google Icon" />}>
+                    <ButtonM type="primary" className={`p-5 bg-input-bg-color`} icon={<img src={google} height={20} width={20} alt="Google Icon" />}>
                         Continue with facebook 
-                    </Button>
+                    </ButtonM>
  
                 </div>
                  <div className="text-sm text-center pb-2 text-gray-400">

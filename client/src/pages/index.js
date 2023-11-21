@@ -7,6 +7,7 @@ import Register from "./auth/Register"
 import Profile from "./Profile/Profile"
 import Notifications from "./Notifications/Notifications"
 import SubmitComplaint from "./SubmitComplaint/SubmitComplaint"
+import Room from "./room/Room"
 
 export {
     Home,
@@ -17,5 +18,7 @@ export {
     Complaints,
     EditComplaint,
     Notifications,
-    SubmitComplaint
+    SubmitComplaint,
+    Room, 
 }
+

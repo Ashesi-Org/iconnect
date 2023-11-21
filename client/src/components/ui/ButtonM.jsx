@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Button = ({ type, onClick, children, className, style, icon }) => {
+const ButtonM = ({ type, onClick, children, className, style, icon }) => {
   let buttonClasses = 'py-2 px-4 rounded focus:outline-none flex items-center';
 
   switch (type) {
@@ -25,4 +25,4 @@ const Button = ({ type, onClick, children, className, style, icon }) => {
   );
 };
 
-export default Button;
+export default ButtonM;

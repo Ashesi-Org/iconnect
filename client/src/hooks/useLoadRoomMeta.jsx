@@ -1,5 +1,6 @@
-import { api } from "@/api";
+
 import { useQuery } from "react-query";
+import { api } from "../api";
 
 const useLoadRoomMeta = (
   roomId,
@@ -17,7 +18,7 @@ const useLoadRoomMeta = (
     async () => {
       try {
         const { data } = await api.get(
-          `/room/${roomId}?userId=${user.userId}${
+          `api/room/${roomId}?userId=${user.userId}${
             hasJoined ? "&hasJoined=true" : ""
           }`
         );
@@ -32,12 +33,12 @@ const useLoadRoomMeta = (
   );
 
   const { isLoading: roomStatusLoading, data: roomStatus } =
-    useQuery<RoomStatus>(
+    useQuery(
       ["room-status", roomId],
       async () => {
         try {
           const { data } = await api.get(
-            `/room/room-status/${roomId}/${user.userId}`
+            `/api/room/room-status/${roomId}/${user.userId}`
           );
           return data;
         } catch (error) {}
@@ -54,7 +55,7 @@ const useLoadRoomMeta = (
     ["room-bans", roomId],
     async () => {
       try {
-        const { data } = await api.get(`/room/ban/${roomId}`);
+        const { data } = await api.get(`/api/room/ban/${roomId}`);
         return data;
       } catch (error) {}
     }

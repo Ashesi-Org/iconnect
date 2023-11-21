@@ -1,10 +1,13 @@
 import { LogOut } from "lucide-react";
 import { Logo } from "./Logo";
-import { useState} from "react";
+import { useContext, useState } from "react";
 import { DASHBOARD, HOME, COMPLAINTS, ROOMS } from "../../utils/Routes";
 import { useNavigate } from "react-router-dom";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./tooltip";
+import { userContext } from "../../contexts/UserContext";
 
-export const SideNav = ({ profile, tabIcons }) => {
+export const SideNav = ({ profile, tabIcons, routes }) => {
+  const {user:auth_user} = useContext(userContext)
   const [activeTab, setActiveTab] = useState(0);
   return (
     <div className="text-white py-5 bg-app-background-2 w-[50px] sticky bottom-0 h-screen max-h-screen shadow-app_shadow flex flex-col items-center justify-between">
@@ -20,14 +23,14 @@ export const SideNav = ({ profile, tabIcons }) => {
             index={index}
             isActive={activeTab == index}
             setActiveTab={setActiveTab}
+            route={routes[index]}
           />
         ))}
       </div>
       <div className="flex flex-col items-center space-y-4 w-full">
         <Profile
           profile={{
-            avatarUrl:
-              "https://i.pinimg.com/236x/04/11/17/041117fffc8f8fff9a257e2fb9d593e2.jpg",
+            avatarUrl: auth_user?.avatarUrl
           }}
         />
         <TabButton
@@ -53,32 +56,19 @@ export const Profile = ({ profile }) => {
 };
 
 
-export const TabButton = ({ icon, index, isActive, setActiveTab }) => {
+export const TabButton = ({ icon, index, isActive, setActiveTab, route }) => {
   const navigate = useNavigate();
 
   // Function to handle navigation
   const handleNavigation = () => {
-    switch (index) {
-      case 0:
-        navigate(HOME);
-        break;
-      case 1:
-        navigate(COMPLAINTS);
-        break;
-
-      case 2:
-        navigate(ROOMS);
-        break;
-      default:
-        break;
-    }
+    navigate(`/${route}`)
   };
 
   return isActive ? (
     <div
       onClick={() => {
         setActiveTab(index);
-        handleNavigation(); 
+        handleNavigation();
         console.log(index);
       }}
       className="w-full py-2 px-2 bg-app-background-1 group flex items-center justify-center border-r-2 border-app-brown cursor-pointer"
@@ -86,16 +76,26 @@ export const TabButton = ({ icon, index, isActive, setActiveTab }) => {
       {icon}
     </div>
   ) : (
-    <div
-      onClick={() => {
-        setActiveTab(index);
-        handleNavigation(); 
-        console.log(index);
-      }}
-      className="w-full py-2 px-2 flex items-center group hover:bg-app-hover justify-center cursor-pointer"
-    >
-      {icon}
-    </div>
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger>
+          <div
+            onClick={() => {
+              setActiveTab(index);
+              handleNavigation();
+              console.log(index);
+            }}
+            className="w-full py-2 px-2 flex items-center group hover:bg-app-hover justify-center cursor-pointer"
+          >
+            {icon}
+          </div>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>{route}</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+
   );
 };
 

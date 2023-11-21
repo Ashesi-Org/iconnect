@@ -3,11 +3,14 @@ import { useState, useEffect } from "react";
 import "./App.css";
 
 // components
-import { HOME, LOGIN, REGISTER, COMPLAINTS,ABOUT, SUBMITCOMPLAINT, EDITCOMPLAINT, NOTIFICATIONS, PROFILE,SIMON, TEST } from "./utils/Routes";
+import { HOME, LOGIN, REGISTER, COMPLAINTS,ABOUT, SUBMITCOMPLAINT, EDITCOMPLAINT, NOTIFICATIONS, PROFILE,SIMON, TEST, ROOMS, ROOM } from "./utils/Routes";
 import Simon from "./pages/Simon";
 import "./App.css";
-import { Test } from "./pages/Test";
-import { Login, Home, Register, Notifications, Complaints, About, SubmitComplaint, Profile, EditComplaint, } from "./pages";
+// import { Test } from "./pages/Test";
+import { Login, Home, Register, Notifications, Complaints, About, SubmitComplaint, Profile, EditComplaint, Room, } from "./pages";
+import { QueryClient, QueryClientProvider } from "react-query";
+import HotLineRooms from "./pages/hotlinerooms/HotLineRooms";
+
 
 
 function App() {
@@ -30,8 +33,10 @@ function App() {
       darkModeQuery.removeEventListener('change', handleDarkModeChange);
     };
   }, []);
+
+  const [queryClient] = useState(() => new QueryClient());
   return (
-      <Router>
+      
         <div className='flex h-full' onClick={()=>setInbox(false)}>
             {inbox ? <Notifications setInbox={setInbox} /> : null}
             <Routes>
@@ -42,13 +47,14 @@ function App() {
               <Route path={SUBMITCOMPLAINT} element={<SubmitComplaint isDarkMode={isDarkMode} />} />
               <Route path={NOTIFICATIONS} element={<Notifications />} />
               <Route path= {PROFILE} element={<Profile />} />
-              <Route path={SIMON} element={<Simon />} />
+              <Route path= {ROOM} element={<Room/>} />
+              <Route path = {ROOMS} element = {<HotLineRooms />}/>
               <Route path={LOGIN} element={<Login />} />
               <Route path={REGISTER} element={<Register />} />
-              <Route path={TEST} element={<Test />} />
+              {/* <Route path={TEST} element={<Test />} /> */}
+              <Route path={SIMON} element={<Simon />} />
             </Routes>
       </div>
-    </Router>
   );
 }
 
