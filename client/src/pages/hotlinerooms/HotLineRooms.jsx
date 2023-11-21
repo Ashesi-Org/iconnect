@@ -9,6 +9,7 @@ import VoiceRoomsLayout from "../../components/ui/VoiceRoomsLayout";
 import Feed from "../../components/hotline-room/hotline-feed/Feed";
 import RoomMinimizedCard from "../../components/hotline-room/RoomMinimizedCard";
 import { SideNav } from "../../components/ui/SideNav";
+import AppSideBar from "../../components/common/AppSideBar";
 
 
 const HotLineRooms = () => {
@@ -26,12 +27,11 @@ const HotLineRooms = () => {
   console.log('====================================');
 
   return (
-    <>
+    <div className="overflow-hidden">
       
       <VoiceRoomsLayout
-        navbar={<SideNav />}
-        column1={<PeopleList />}
-        column2={<Feed conn={conn} />}
+        navbar={<AppSideBar />}
+        column1={<Feed conn={conn} />}
       />
       {roomId ? (
         <RoomMinimizedCard
@@ -43,7 +43,7 @@ const HotLineRooms = () => {
       ) : (
         <></>
       )}
-    </>
+    </div>
   );
 };
 

@@ -1,7 +1,6 @@
 import HomePage from "./Home/Home"
 import About from "./About/About"
 import Complaints from "./Complaints/Complaints"
-import EditComplaint from "./EditComplaint/EditComplaint"
 import Login from "./auth/Login"
 import Register from "./auth/Register"
 import Profile from "./Profile/Profile"
@@ -16,7 +15,6 @@ export {
     Profile,
     Register,
     Complaints,
-    EditComplaint,
     Notifications,
     SubmitComplaint,
     Room, 

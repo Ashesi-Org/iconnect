@@ -1,24 +1,22 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Pencil, Trash2 } from 'lucide-react';
-import { formatTimeAgo } from '../../utils/functions';
 import moment from 'moment';
 import ComplaintsStatistics from './ComplaintStatistics';
-import EditModal from './EditComplaintModal';
+import AppDialog from '../ui/AppDialog';
+import ButtonM from '../ui/ButtonM';
+import EditComplaint from './EditComplaint';
 
 const getStatusIndicator = (status) => {
-  // Map of status values to their corresponding background colors
-  const statusColors = {
+  const statusColorsMap = {
     'open': 'bg-red-500',
     'in-progress': 'bg-yellow-500',
     'resolved': 'bg-green-500',
     'closed': 'bg-gray-500'
   };
 
-  // Get the background color for the given status
-  const statusColor = statusColors[status] || '';
+  const statusColor = statusColorsMap[status] || '';
 
-  // Return a span element with the status text and appropriate background color
   return (
     <span className={`px-2 py-1 text-xs text-white rounded ${statusColor}`}>
       {status}
@@ -45,9 +43,15 @@ const getPriorityIndicator = (priority) => {
 };
 
 const ComplaintsContent = ({ complaintData, pageSize }) => {
+
+  const [editModalVisible, setEditModalVisible] = useState(false);
+  const [selectedIssue, setSelectedIssue] = useState(null);
   const [activeIssues, setActiveIssues] = useState({});
   const [filteredData, setFilteredData] = useState(complaintData);
-    // Calculate statistics from complaintData
+  const [deleteConfirmationVisible, setDeleteConfirmationVisible] = useState(false);
+  const [issueToDelete, setIssueToDelete] = useState(null);
+
+  // Calculate statistics from complaintData
   const calculateStatistics = (data) => {
     let statistics = {
       'open': 0,
@@ -73,35 +77,43 @@ const ComplaintsContent = ({ complaintData, pageSize }) => {
 
 
   const filterDataByStatus = (status) => {
-  const filtered = complaintData.filter((issue) => issue.status === status);
-  const remaining = complaintData.filter((issue) => issue.status !== status);
-  const rearrangedData = filtered.concat(remaining);
-  setFilteredData(rearrangedData);
-};
+    const filtered = complaintData.filter((issue) => issue.status === status);
+    const remaining = complaintData.filter((issue) => issue.status !== status);
+    const rearrangedData = filtered.concat(remaining);
+    setFilteredData(rearrangedData);
+  };
 
-
-
-  const [editModalVisible, setEditModalVisible] = useState(false);
-  const [selectedIssue, setSelectedIssue] = useState(null);
-
-  // Function to open the edit modal
-  const openEditModal =  (issue) => {
+  const openEditModal = (issue) => {
     setSelectedIssue(issue);
-    console.log(issue.issue_id);
     setEditModalVisible(true);
   };
 
-  // Function to close the edit modal
   const closeEditModal = () => {
     setEditModalVisible(false);
     setSelectedIssue(null);
   };
 
+  const openDeleteConfirmation = (issue) => {
+    setIssueToDelete(issue);
+    setDeleteConfirmationVisible(true);
+  };
+
+  const closeDeleteConfirmation = () => {
+    setDeleteConfirmationVisible(false);
+    setIssueToDelete(null);
+  };
+
+  const confirmDelete = (issueId) => {
+    // Handle deletion logic here, such as making an API call
+    console.log(`Deleting issue with ID ${issueId}`);
+    closeDeleteConfirmation(); // Close the delete confirmation dialog
+  };
+
 
   return (
     <div className='flex flex-shrink-0 flex-col gap-2 p-5'>
-        <ComplaintsStatistics statistics={statistics}  onClick={(status) => filterDataByStatus(status)} />
-       
+      <ComplaintsStatistics statistics={statistics} onClick={(status) => filterDataByStatus(status)} />
+
       <div className="grid gap-4 flex-shrink-0 pb-5 w-full rounded-xl">
         {filteredData.map((issue) => (
           <div key={issue.issue_id} className="text-app-white bg-app-background-2 p-5 rounded-lg shadow-lg cursor-pointer" onClick={() => toggleComments(issue.issue_id)}>
@@ -115,8 +127,8 @@ const ComplaintsContent = ({ complaintData, pageSize }) => {
               </div>
             </div>
             <p className="text-gray-400 mt-2">{issue.description}</p>
-               
-              {activeIssues[issue.issue_id] && issue.comments && issue.comments.length > 0 && (
+
+            {activeIssues[issue.issue_id] && issue.comments && issue.comments.length > 0 && (
               <div className="mt-3">
                 <h5 className="text-md font-semibold">Comments</h5>
                 <div className="grid gap-3 mt-2">
@@ -137,27 +149,60 @@ const ComplaintsContent = ({ complaintData, pageSize }) => {
               <span className="text-sm text-gray-500">{moment(issue.created_at).fromNow()}</span>
               {/* Additional controls for the issue */}
               <div className="flex gap-3">
-                <Link to="#" className="flex items-center font-medium" onClick={() => openEditModal(issue)}>
-                  <Pencil size={18} color='#215B90' />
+
+                <Link to="#" className="flex items-center font-medium">
+                  <Pencil size={18} color='#215B90' onClick={() => openEditModal(issue)} />
                 </Link>
-                <Link to={`#`} className="flex items-center">
-                  <Trash2 size={18} color='#A82F2F' />
+
+
+                <Link to="#" className="flex items-center">
+                  <Trash2 size={18} color='#A82F2F' onClick={() => openDeleteConfirmation(issue)} />
                 </Link>
+
               </div>
             </div>
-{editModalVisible && selectedIssue && (
-                  <EditModal
-                    issueId={selectedIssue.issue_id}
-                    issueTitle={selectedIssue.title}
-                    issueDescription={selectedIssue.description}
-                    closeModal={closeEditModal}
-                  />
-                )}
+
+
           </div>
         ))}
       </div>
 
-    
+      {/* Edit Dialog */}
+      {editModalVisible && selectedIssue && (
+        <AppDialog
+          defaultOpen={editModalVisible}
+          open={editModalVisible}
+          setOpenChange={closeEditModal}
+          content={
+
+            <EditComplaint
+              issueId={selectedIssue.issue_id}
+              issueTitle={selectedIssue.title}
+              issueDescription={selectedIssue.description}
+              closeModal={closeEditModal}
+            />
+
+          }
+        />
+      )}
+      {/* Delete Confirmation Dialog */}
+      <AppDialog
+        defaultOpen={deleteConfirmationVisible}
+        open={deleteConfirmationVisible}
+        setOpenChange={closeDeleteConfirmation}
+        content={
+          <div className="flex flex-col space-y-4 bg-app-background-1  text-app-white p-5">
+            <p>Are you sure you want to delete this issue?</p>
+            <p>This action cannot be undone.</p>
+            <p className='font-bold'>AIS {issueToDelete?.issue_id} : {issueToDelete?.title}</p>
+            <div className="flex justify-end space-x-2">
+              <ButtonM onClick={() => confirmDelete(issueToDelete.issue_id)} className="bg-red-500 px-4 py-2 rounded-md">Confirm</ButtonM>
+              <ButtonM onClick={closeDeleteConfirmation} className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md">Cancel</ButtonM>
+            </div>
+          </div>
+        }
+      >
+      </AppDialog>
     </div>
   );
 };

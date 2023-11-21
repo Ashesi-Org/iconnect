@@ -3,12 +3,12 @@ import { useState, useEffect } from "react";
 import "./App.css";
 
 // components
-import { HOME, LOGIN, REGISTER, COMPLAINTS,ABOUT, SUBMITCOMPLAINT, EDITCOMPLAINT, NOTIFICATIONS, PROFILE,SIMON, TEST, ROOMS, ROOM } from "./utils/Routes";
+import { HOME, LOGIN, REGISTER, COMPLAINTS,ABOUT, SUBMITCOMPLAINT, NOTIFICATIONS, PROFILE,SIMON, TEST, ROOMS, ROOM, ANALYTICS } from "./utils/Routes";
 import Simon from "./pages/Simon";
 import Analytics from './admin-ui/analytics/Analytics'
 import "./App.css";
 // import { Test } from "./pages/Test";
-import { Login, HomePage, Register, Notifications, Complaints, About, SubmitComplaint, Profile, EditComplaint, Room, } from "./pages";
+import { Login, HomePage, Register, Notifications, Complaints, About, SubmitComplaint, Profile, Room, } from "./pages";
 import { QueryClient, QueryClientProvider } from "react-query";
 import HotLineRooms from "./pages/hotlinerooms/HotLineRooms";
 
@@ -44,7 +44,6 @@ function App() {
               <Route path={HOME} element={<HomePage setSelectedLink = {setSelectedLink} />} />
               <Route path={ABOUT} element={<About />} />
               <Route path={COMPLAINTS} element={<Complaints />} />
-              <Route path={EDITCOMPLAINT} element={<EditComplaint />} />
               <Route path={SUBMITCOMPLAINT} element={<SubmitComplaint isDarkMode={isDarkMode} />} />
               <Route path={NOTIFICATIONS} element={<Notifications />} />
               <Route path= {PROFILE} element={<Profile />} />

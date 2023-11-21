@@ -147,8 +147,7 @@ const room = () => {
       )}
       <VoiceRoomsLayout
         navbar={<NavBar />}
-        column1={<PeopleList />}
-        column2={<RoomArea />}
+        column1={<RoomArea />}
         footer={<RoomFooter />}
       />
     </>

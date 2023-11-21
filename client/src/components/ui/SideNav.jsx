@@ -61,7 +61,7 @@ export const TabButton = ({ icon, index, isActive, setActiveTab, route }) => {
 
   // Function to handle navigation
   const handleNavigation = () => {
-    navigate(`/${route}`)
+    navigate(route)
   };
 
   return isActive ? (

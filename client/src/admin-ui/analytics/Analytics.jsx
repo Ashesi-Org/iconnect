@@ -7,13 +7,16 @@ import { SideNav } from "../../components/ui/SideNav";
 import StatusChart from './AnalysisTools';
 import PercentageStatus from './PercnetAnalysis'
 import StatusLineChart from './StatusLineChart';
+import { COMPLAINTS, CONTACT, HELP, HOME, ROOMS } from '../../utils/Routes';
 
 const Analytics = () => {
   return (
     <>
       <AppLayout
         sidebar={
+          
           <SideNav className='w-[15px]' 
+          routes =  {[HOME, COMPLAINTS, ROOMS, HELP, CONTACT, "settings"]}
             tabIcons={[
               <Home
                 className="text-app-white group-active:scale-90 transition-all duration-50 ease-in"
