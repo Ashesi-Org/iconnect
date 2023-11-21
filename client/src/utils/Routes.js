@@ -13,6 +13,7 @@ export const EDITCOMPLAINT ='/edit-complaint'
 export const SUBMITCOMPLAINT ='/submit-complaint'
 export const NOTIFICATIONS ='/notifications'
 export const PROFILE = '/profile'
+export const ANALYTICS = '/admin/dashboard/analytics'
 
 // Protected routes
 export const ADMIN = "/admin"
