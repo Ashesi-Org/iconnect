@@ -1,4 +1,4 @@
-import Home from "./Home/Home"
+import HomePage from "./Home/Home"
 import About from "./About/About"
 import Complaints from "./Complaints/Complaints"
 import EditComplaint from "./EditComplaint/EditComplaint"
@@ -10,7 +10,7 @@ import SubmitComplaint from "./SubmitComplaint/SubmitComplaint"
 import Room from "./room/Room"
 
 export {
-    Home,
+    HomePage,
     About,
     Login,
     Profile,
