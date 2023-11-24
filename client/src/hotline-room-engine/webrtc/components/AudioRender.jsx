@@ -61,7 +61,7 @@ const AudioRender = () => {
                 </div>
                 <DialogClose>
                   <button
-                    className="bg-app_cta p-3 flex items-center justify-center font-bold rounded-md w-full active:bg-sky-800 focus:outline-none focus:ring focus:ring-sky-300"
+                    className="bg-app-background-2 flex items-center justify-center font-bold rounded-md w-full active:bg-sky-800 focus:outline-none focus:ring focus:ring-sky-300"
                     onClick={() => {
                       setShowAutoPlayModal(false);
                       audioRefs.current.forEach(([_, a]) => {

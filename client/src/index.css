@@ -6,12 +6,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* PremiumPlanModal */
-.premium-plan-modal {
-  background: #09090a81;
-  backdrop-filter: blur(2px);
-}
-
 
 
 .selected {

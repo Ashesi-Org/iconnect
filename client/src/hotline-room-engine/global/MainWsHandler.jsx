@@ -291,7 +291,7 @@ import { useNavigate } from 'react-router-dom';
             <div
               className={`${
                 t.visible ? "animate-enter" : "animate-leave"
-              }  w-autobg-app_bg_deeper shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
+            }  bg-app-background-3 shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
             >
               <div className="flex-1 w-full p-4 flex justify-between items-center">
                 <div className="flex items-start">

@@ -24,15 +24,15 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <QueryClientProvider client={queryClient}>
       <UserProvider>
         {/* <NProgress options={{ OnRouteChange: true, showSpinner: false, trickle: true, trickleRate: 0.1 }} /> */}
-        <WebSocketProvider>
+        {/* <WebSocketProvider> */}
           <MainWsHandler history={history}>
-            <WebrtcApp />
+            {/* <WebrtcApp /> */}
             <App />
           </MainWsHandler>
           {/* <ChatWsHandler /> */}
           {/* Assuming SoundEffectPlayer is imported */}
           <SoundEffectPlayer />
-        </WebSocketProvider>
+        {/* </WebSocketProvider> */}
         <Toaster position="bottom-center" reverseOrder={true} />
         <ReactQueryDevtools initialIsOpen={false} />
       </UserProvider>

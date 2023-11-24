@@ -39,18 +39,26 @@ const UpdateComplaintStatus = ({ issueId, issueStatus, possibleStatuses, closeMo
         setShowSuccessToast(true);
         setTimeout(() => {
           setShowSuccessToast(false);
-          closeModal(); 
           window.location.reload();
         }, 3000);
           
        
       } else {
         setShowErrorToast(true);
+        setTimeout(() => {
+          setShowErrorToast(false);
+        }, 3000);
+      
         // closeModal();
       }
     } catch (error) {
       console.error('Error updating issue:', error);
-      setShowErrorToast(true);
+  setShowErrorToast(true);
+        setTimeout(() => {
+          setShowErrorToast(false);
+        }, 3000);
+      
+
     } finally {
       setIsSaving(false);
     }
