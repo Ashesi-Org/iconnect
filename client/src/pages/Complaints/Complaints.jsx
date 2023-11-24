@@ -22,33 +22,33 @@ const fetchUserIssues = async (userId) => {
 
 
 const Complaints = () => {
-    const { user } = useContext(userContext); 
+  const { user } = useContext(userContext);
 
-    const { data: issueData, isLoading, isError } = useQuery(
-      ['userIssues', user.userId], 
-      () => fetchUserIssues(user?.userId),
-      { enabled: !!user?.userId } 
-    );
+  const { data: issueData, isLoading, isError } = useQuery(
+    ['userIssues', user?.userId],
+    () => fetchUserIssues(user?.userId),
+    { enabled: !!user?.userId }
+  );
 
-    if (isLoading) {
-      return <Loader bgColor="bg-app-brown" width={40} height={40}/>; 
-    }
+  if (isLoading) {
+    return <Loader bgColor="bg-app-brown" width={40} height={40} />;
+  }
 
   return (
 
-     <>
+    <>
       <AppLayout
         sidebar={<AppSideBar />}
         column={
-            <ContentScrollable
-              nav1={<TopTagBar />}
-              content={<ComplaintsContent complaintData={issueData} />}
-              // selectedContent={selectedContent}
-            />
-          }
+          <ContentScrollable
+            nav1={<TopTagBar />}
+            content={<ComplaintsContent complaintData={issueData} />}
+          // selectedContent={selectedContent}
+          />
+        }
       />
     </>
-   
+
   )
 }
 

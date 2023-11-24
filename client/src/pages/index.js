@@ -4,9 +4,9 @@ import Complaints from "./Complaints/Complaints"
 import Login from "./auth/Login"
 import Register from "./auth/Register"
 import Profile from "./Profile/Profile"
-import Notifications from "./Notifications/Notifications"
-import SubmitComplaint from "./SubmitComplaint/SubmitComplaint"
+import SubmitComplaint from "./Complaints/SubmitComplaint"
 import Room from "./room/Room"
+import PageNotFound from "./errors/PageNotFound"
 
 export {
     HomePage,
@@ -15,8 +15,8 @@ export {
     Profile,
     Register,
     Complaints,
-    Notifications,
     SubmitComplaint,
-    Room, 
+    Room,
+    PageNotFound 
 }
 

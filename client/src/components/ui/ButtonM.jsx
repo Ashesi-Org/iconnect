@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ButtonM = ({ type, onClick, children, className, style, icon }) => {
+const ButtonM = ({ type, onClick, children, className, style, icon, disabled }) => {
   let buttonClasses = 'py-2 px-4 rounded focus:outline-none flex items-center';
 
   switch (type) {

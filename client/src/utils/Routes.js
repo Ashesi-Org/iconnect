@@ -9,17 +9,17 @@ export const ROOMS = '/rooms'
 export const ROOM = '/rooms/:id'
 export const ABOUT = '/about'
 export const COMPLAINTS ='/complaints'
-export const EDITCOMPLAINT ='/edit-complaint'
-export const SUBMITCOMPLAINT ='/submit-complaint'
+export const PAGENOTFOUND ='*'
+export const ADDISSUE ='/submit-complaint'
 export const NOTIFICATIONS ='/notifications'
 export const PROFILE = '/profile'
 export const ANALYTICS = '/admin/dashboard/analytics'
 
 // Protected routes
 export const ADMIN = "/admin"
-export const DASHBOARD = "/dashboard"
+export const DASHBOARD = "/dashboard"   
 
 
 // Dumb Testing routes
-export const SIMON = "/simon"
 export const TEST = "/test"
+export const SIMON = "/simon"   
