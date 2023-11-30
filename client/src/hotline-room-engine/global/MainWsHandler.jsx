@@ -269,7 +269,7 @@ import { useNavigate } from 'react-router-dom';
         nullify();
         closeAll();
         close();
-        await navigate("/home");
+        await navigate("/");
         queryClient.invalidateQueries(["user"]);
         queryClient.refetchQueries(["live-rooms"]);
         queryClient.removeQueries(["room"]);

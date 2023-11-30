@@ -17,7 +17,7 @@ import {Select, SelectTrigger,
   ToastClose,
   ToastAction,
 } from '../ui/toast';
-const UpdateComplaintStatus = ({ issueId, issueStatus, possibleStatuses, closeModal }) => {
+const UpdateComplaintStatus = ({ onIssueUpdated, issueId, issueStatus, possibleStatuses, closeModal }) => {
 
 
   const [isSaving, setIsSaving] = useState(false);
@@ -39,7 +39,8 @@ const UpdateComplaintStatus = ({ issueId, issueStatus, possibleStatuses, closeMo
         setShowSuccessToast(true);
         setTimeout(() => {
           setShowSuccessToast(false);
-          window.location.reload();
+                onIssueUpdated()
+          // window.location.reload();
         }, 3000);
           
        

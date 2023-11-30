@@ -5,14 +5,14 @@ import { userContext } from '../../contexts/UserContext';
 import { useContext, useState, useCallback, useEffect } from 'react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '../ui/sheet';
 import NotificationsSheet from '../common/NotificationsSheet';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import useScreenType from '../../hooks/useScreenType';
 import { api } from '../../api';
 
 const NavBar = ({ selectedLink, setSelectedLink, setInbox }) => {
   const myDevice = useScreenType();
   const { user } = useContext(userContext);
-
+  const queryClient = useQueryClient();
   const handleLinkClick = (link) => setSelectedLink(link);
 
   const { data: notifications, isLoading: notificationsLoading } = useQuery(

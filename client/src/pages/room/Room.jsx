@@ -99,8 +99,10 @@ const room = () => {
     hasJoined.current = true;
   }, [roomId, userLoading, conn, roomLoading]);
 
-  return (<>
-      </>)
+  console.log(room)
+
+  // return (<>
+  //     </>)
 
   // if (typeof room === "string") {
   //   console.log(room);
@@ -139,31 +141,31 @@ const room = () => {
   //     );
   //   }
   // }
-  // return room && roomStatus && !roomLoading ? (
-  //   <>
+  return room && roomStatus && !roomLoading ? (
+    <>
       
-  //     {(!room || !roomStatus || roomLoading) && (
-      //   <div className="bg-transparent absolute font-display w-screen h-screen flex flex-row justify-center items-center z-10 backdrop-blur-sm">
-      //     <div>
-      //       <Loader alt={true} textColor="white" bgColor="white" />
-      //     </div>
-      //   </div>
-      // )}
-      // <VoiceRoomsLayout
-      //   navbar={<NavBar />}
-      //   column1={<RoomArea />}
-      //   footer={<RoomFooter />}
-      // />
-  //   </>
-  // ) : (
+      {(!room || !roomStatus || roomLoading) && (
+        <div className="bg-transparent absolute font-display w-screen h-screen flex flex-row justify-center items-center z-10 backdrop-blur-sm">
+          <div>
+            <Loader alt={true} textColor="white" bgColor="white" />
+          </div>
+        </div>
+      )}
+      <VoiceRoomsLayout
+        navbar={<NavBar />}
+        column1={<RoomArea />}
+        // footer={<RoomFooter />}
+      />
+    </>
+  ) : (
  
-  //     <main className="bg-app_bg_deepest absolute font-display w-screen h-screen flex flex-row justify-center items-center">
-  //       <div>
-  //         <Loader alt={true} textColor="white" bgColor="white" width={25} />
-  //       </div>
-  //     </main>
+      <main className="bg-app_bg_deepest absolute font-display w-screen h-screen flex flex-row justify-center items-center">
+        <div>
+          <Loader alt={true} textColor="white" bgColor="white" width={25} />
+        </div>
+      </main>
 
-  // );
+  );
 };
 
 export default room;

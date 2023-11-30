@@ -19,24 +19,39 @@ export const useConsumerStore = create(
           },
         }));
       },
-      setVolume: (userId, volume) => {
-        set((s) => ({
-          consumerMap: {
-            ...s.consumerMap,
-            [userId]: {
-              ...s.consumerMap[userId],
-              volume,
-            },
-          },
-        }));
+
+
+       setVolume: (userId, volume) => {
+        set(s =>
+          userId in s.consumerMap
+            ? {
+                consumerMap: {
+                  ...s.consumerMap,
+                  [userId]: {
+                    ...s.consumerMap[userId],
+                    volume,
+                  },
+                },
+              }
+            : s
+        );
       },
-      add: (c, userId) =>
-        set((s) => ({
-          consumerMap: {
-            ...s.consumerMap,
-            [userId]: { consumer: c, volume: 100 },
-          },
-        })),
+       add: (c, userId) =>
+        set(s => {
+          let volume = 100;
+          if (userId in s.consumerMap) {
+            const x = s.consumerMap[userId];
+            volume = x.volume;
+            x.consumer.close();
+          }
+          return {
+            consumerMap: {
+              ...s.consumerMap,
+              [userId]: { consumer: c, volume },
+            },
+          };
+        }),
+      
       closeAll: () =>
         set((s) => {
           Object.values(s.consumerMap).forEach(

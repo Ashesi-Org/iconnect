@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Settings, Trash2, Edit } from "lucide-react";
 import { userContext } from "../../contexts/UserContext";
 import moment from "moment";
@@ -10,46 +10,12 @@ import EditComplaint from "./EditComplaint";
 import UpdateComplaintStatus from "./UpdateComplaintStatus";
 import ComplaintsFilter from "./ComplaintsFilter";
 import { categories } from "../hotline-room/hotline-feed/Constants";
-const getStatusIndicator = (status) => {
-  const statusColorsMap = {
-    open: "bg-red-500",
-    "in-progress": "bg-yellow-500",
-    resolved: "bg-green-500",
-    closed: "bg-gray-500",
-  };
+import DeleteIssue from "./DeleteIssue";
+import { getPriorityIndicator, getStatusIndicator } from "./ComplaintStatusIndicator";
 
-  const statusColor = statusColorsMap[status] || "";
 
-  return (
-    <span className={`px-2 py-1 text-xs text-white rounded ${statusColor}`}>
-      {status}
-    </span>
-  );
-};
-
-const getPriorityIndicator = (priority) => {
-  let priorityColor = "";
-  switch (priority) {
-    case "high":
-      priorityColor = "bg-red-500";
-      break;
-    case "medium":
-      priorityColor = "bg-yellow-500";
-      break;
-    case "low":
-      priorityColor = "bg-green-500";
-      break;
-    default:
-      break;
-  }
-  return (
-    <span className={`px-2 py-1 text-xs text-white rounded ${priorityColor}`}>
-      {priority}
-    </span>
-  );
-};
-
-const ComplaintsContent = ({ complaintData, pageSize }) => {
+const ComplaintsContent = ({ complaintData, onIssueUpdated, onIssueDeleted}) => {
+  const  navigate = useNavigate()
   const { user: current_user } = useContext(userContext);
   const isAdmin = current_user?.role === "administrator";
   const [editModalVisible, setEditModalVisible] = useState(false);
@@ -57,11 +23,10 @@ const ComplaintsContent = ({ complaintData, pageSize }) => {
   const [selectedIssue, setSelectedIssue] = useState(null);
   const [activeIssues, setActiveIssues] = useState({});
   const [filteredData, setFilteredData] = useState(complaintData);
-  // const [appliedFilter, setAppliedFilter] = useState({ category: "", status: "" });
+  
   console.log(complaintData)
-  const [deleteConfirmationVisible, setDeleteConfirmationVisible] =
-    useState(false);
-  const [issueToDelete, setIssueToDelete] = useState(null);
+  const [deleteConfirmationVisible, setDeleteConfirmationVisible] = useState(false);
+
 
   // Calculate statistics from complaintData
   const calculateStatistics = (data) => {
@@ -85,6 +50,8 @@ const ComplaintsContent = ({ complaintData, pageSize }) => {
       ...prev,
       [issueId]: !prev[issueId],
     }));
+
+    navigate(`/complaints/${issueId}`);
   };
 
   const filterDataByStatus = (status) => {
@@ -102,23 +69,21 @@ const ComplaintsContent = ({ complaintData, pageSize }) => {
   const closeEditModal = () => {
     setEditModalVisible(false);
     setSelectedIssue(null);
+    onIssueUpdated();
   };
 
   const openDeleteConfirmation = (issue) => {
-    setIssueToDelete(issue);
+    setSelectedIssue(issue);
     setDeleteConfirmationVisible(true);
+
   };
 
   const closeDeleteConfirmation = () => {
     setDeleteConfirmationVisible(false);
-    setIssueToDelete(null);
+    setSelectedIssue(null);
+    onIssueDeleted();
   };
 
-  const confirmDelete = (issueId) => {
-    // Handle deletion logic here, such as making an API call
-    console.log(`Deleting issue with ID ${issueId}`);
-    closeDeleteConfirmation(); // Close the delete confirmation dialog
-  };
 
   const openStatusModal = (issue) => {
     setSelectedIssue(issue);
@@ -184,6 +149,7 @@ const applyFilter = ({ categories, statuses, dateRange }) => {
                   >
                     <h4 className="text-lg font-semibold ">
                       AIS {issue.issue_id}: {issue.title}
+                      <span className="text-xs pl-5 font-normal text-orange-500">{issue.assignmentStatus}</span>
                     </h4>
                     <div className="flex p-1 gap-2">
                       {getStatusIndicator(issue.status)}
@@ -265,9 +231,12 @@ const applyFilter = ({ categories, statuses, dateRange }) => {
           setOpenChange={closeEditModal}
           content={
             <EditComplaint
+              onIssueUpdated = {onIssueUpdated}
+              priority={selectedIssue.priority}
               issueId={selectedIssue.issue_id}
               issueTitle={selectedIssue.title}
               issueDescription={selectedIssue.description}
+              possiblePriorities={["low", "medium", "high"]}
               closeModal={closeEditModal}
             />
           }
@@ -281,6 +250,7 @@ const applyFilter = ({ categories, statuses, dateRange }) => {
           setOpenChange={closeStatusModal}
           content={
             <UpdateComplaintStatus
+              onIssueUpdated = {onIssueUpdated}
               issueId={selectedIssue?.issue_id}
               issueStatus={selectedIssue?.status}
               possibleStatuses={["open", "in-progress", "closed", "resolved"]}
@@ -295,27 +265,9 @@ const applyFilter = ({ categories, statuses, dateRange }) => {
         open={deleteConfirmationVisible}
         setOpenChange={closeDeleteConfirmation}
         content={
-          <div className="flex flex-col space-y-4 bg-app-background-1  text-app-white p-5">
-            <p>Are you sure you want to delete this issue?</p>
-            <p>This action cannot be undone.</p>
-            <p className="font-bold">
-              AIS {issueToDelete?.issue_id} : {issueToDelete?.title}
-            </p>
-            <div className="flex justify-end space-x-2">
-              <ButtonM
-                onClick={() => confirmDelete(issueToDelete.issue_id)}
-                className="bg-red-500 px-4 py-2 rounded-md"
-              >
-                Confirm
-              </ButtonM>
-              <ButtonM
-                onClick={closeDeleteConfirmation}
-                className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md"
-              >
-                Cancel
-              </ButtonM>
-            </div>
-          </div>
+          <>
+          <DeleteIssue  issueToDelete={selectedIssue} closeDeleteConfirmation={closeDeleteConfirmation}/>
+          </>
         }
       ></AppDialog>
     </div>

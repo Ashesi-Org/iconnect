@@ -31,9 +31,10 @@ const CreateRoom = ({ conn }) => {
       return data;
     },
 
-    onSuccess: async (data, variables) => {
+    onSuccess: async (data, variables) => {     
       console.log(conn, data);
       // if (data && conn) {
+
       console.log("sending room data to voice server", data.roomId);
       conn.emit("rtc:create_room", { roomId: data.roomId });
       // } else {

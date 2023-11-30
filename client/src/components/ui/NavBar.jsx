@@ -34,12 +34,12 @@ const NavBar = () => {
 
   const [profileOpen, setProfileSheetOpen] = useState(false);
   const { data: notifications, isLoading: notificationsLoading } = useQuery(
-    ["notifications", user?.userId],
+    ["notifications", auth_user?.userId],
     async () => {
       const { data } = await api.get(`/api/profile/notification/${auth_user.userId}`);
       return data;
     },
-    { enabled: !!user }
+    { enabled: !!auth_user }
   );
   const hasNewNotifications = notifications?.some(
     (notification) => notification.isRead === false
@@ -130,7 +130,7 @@ const NavBar = () => {
           <DropdownMenuTrigger asChild> */}
           <Sheet open={profileOpen} onOpenChange={setProfileSheetOpen}>
             <SheetTrigger asChild>
-              <button disabled={!user} className="hover:opacity-60">
+              <button disabled={!auth_user} className="hover:opacity-60">
                 {userLoading ? (
                   <Skeleton className="w-7 h-7 rounded-full" />
                 ) : (

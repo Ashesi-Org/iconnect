@@ -54,6 +54,7 @@ const NotificationsSheet = () => {
           >
             <Notification
               key={notification.notification_id}
+              issueId={notification.issue_id}
               content={notification.message}
               createdAt={notification.created_at}
               notificationId={notification.notification_id}

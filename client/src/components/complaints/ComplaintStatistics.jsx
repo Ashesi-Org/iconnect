@@ -27,7 +27,7 @@ const ComplaintsStatistics = ({ statistics, onClick}) => {
                 r="15.91549430918954"
                 fill="transparent"
                 stroke="#ddd"
-                strokeWidth="3"
+                strokeWidth="2"
               />
               <circle
                 className="circle-progress"
@@ -46,11 +46,11 @@ const ComplaintsStatistics = ({ statistics, onClick}) => {
                     ? '#6b7280'
                     : ''
                 }
-                strokeWidth="3"
+                strokeWidth="2"
                 strokeDasharray={`${percentage} 100`}
                 strokeLinecap="round"
               />
-             {percentage > 0 && <text x="12" y="20.35" className="text-xs font-medium text-center text-gray-600">{`${percentage.toFixed(0)}%`}</text>} 
+             {percentage > 0 && <text x="5" y="20.35" className="text-xs font-medium text-center text-gray-600">{`${percentage.toFixed(0)}%`}</text>} 
                 
             </svg>
             <span className="text-gray-500 mt-2 capitalize">{status}</span>

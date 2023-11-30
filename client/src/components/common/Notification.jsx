@@ -3,17 +3,17 @@ import { Button } from "../ui/button";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import { Eye } from "lucide-react";
-const Notification = ({ notificationId, content, isRead, createdAt }) => {
+const Notification = ({ issueId,notificationId, content, isRead, createdAt }) => {
   const navigate = useNavigate();
 
   return (
     <div className="flex items-start  flex-col justify-between space-x-1 my-4 text-app-white border-b border-gray-200">
       <div className="flex items-start w-full space-x-3 cursor-pointer">
         <div className="w-full">{content}</div>
-        <Eye color="lightgray" 
+        <Eye color="#B0D9B1" size={20}
         
         onClick={() => {
-          navigate(`/notification/${notificationId}`);
+          navigate(`/complaints/${issueId}`);
         }}
         />
          

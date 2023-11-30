@@ -240,7 +240,7 @@ const ComplaintForm = () => {
           onClick={createIssue}
 
         >
-          {isSaving ? <Loader width={20} height={20} /> : "Submit"}
+          {isSaving ? <Loader width={20} height={20} message={"checking..."}/> : "Submit"}
         </ButtonM>
       </div>
 

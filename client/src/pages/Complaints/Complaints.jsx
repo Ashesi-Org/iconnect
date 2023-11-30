@@ -7,7 +7,7 @@ import Loader from "../../components/ui/Loader";
 import { api } from "../../api";
 import { userContext } from "../../contexts/UserContext";
 import { useContext } from "react";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import AppSideBar from "../../components/common/AppSideBar";
 
 const fetchUserIssues = async (userId) => {
@@ -23,12 +23,21 @@ const fetchUserIssues = async (userId) => {
 
 const Complaints = () => {
   const { user } = useContext(userContext);
+  const queryClient = useQueryClient();
 
-  const { data: issueData, isLoading, isError } = useQuery(
+  const { data: issueData, isLoading, isError, refetch } = useQuery(
     ['userIssues', user?.userId],
     () => fetchUserIssues(user?.userId),
     { enabled: !!user?.userId }
   );
+
+  const handleIssueUpdated = () => {
+    refetch();
+  };
+
+  const handleIssueDeleted = () => {
+    queryClient.invalidateQueries('userIssues');
+  };
 
   if (isLoading) {
     return <Loader bgColor="bg-app-brown" width={40} height={40} />;
@@ -42,8 +51,13 @@ const Complaints = () => {
         column={
           <ContentScrollable
             nav1={<TopTagBar />}
-            content={<ComplaintsContent complaintData={issueData} />}
-          // selectedContent={selectedContent}
+            content={
+            
+            <ComplaintsContent
+                complaintData={issueData}
+                onIssueUpdated={handleIssueUpdated}
+                onIssueDeleted={handleIssueDeleted}
+              />}
           />
         }
       />

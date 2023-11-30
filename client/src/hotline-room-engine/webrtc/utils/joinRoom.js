@@ -4,6 +4,6 @@ import { useVoiceStore } from "../store/useVoiceStore";
 export const joinRoom = async (routerRtpCapabilities) => {
   const { device } = useVoiceStore.getState();
   if (!device.loaded) {
-    await device.load({ routerRtpCapabilities });
+    await device?.load({ routerRtpCapabilities });
   }
 };
