@@ -57,6 +57,7 @@ const googleStrategyMiddleware = new GoogleStrategy(
       `,
       [profile.id, profile.emails[0].value]
     );
+    logger.info(rows)
     logger.info(`user ${rows[0]} authenticated successfully`);
     if (rows.length > 0) {
       logger.info(`user ${profile.emails[0].value} already exists`);
@@ -74,11 +75,11 @@ const googleStrategyMiddleware = new GoogleStrategy(
             RETURNING *
             `,
             [
-              profile.emails[0].value,
-              generateUsername(profile._json.family_name.toLowerCase()), //generte unique handle by default
-              profile.photos[0].value,
-              profile.displayName,
-              profile._json.bio,
+              profile?.emails[0].value,
+              generateUsername(profile?._json.family_name?.toLowerCase()), //generte unique handle by default
+              profile?.photos[0].value,
+              profile?.displayName,
+              profile?._json.bio,
               "student",
               "english",
               profile.id,

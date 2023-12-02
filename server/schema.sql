@@ -139,6 +139,12 @@ CREATE TABLE notifications (
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
+
+ALTER TABLE notifications
+DROP CONSTRAINT notifications_notifiction_type_check,
+ADD CONSTRAINT notifications_notifiction_type_check CHECK (notifiction_type IN ('status', 'comment', 'attachment', 'ban', 'admin', 'review', 'reminder', 'update', 'assigned'));
+
+
 select * from issues
 
 -- Indexing for Performance Optimization
