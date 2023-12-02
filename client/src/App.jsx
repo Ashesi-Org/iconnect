@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 // components
-import { HOME, LOGIN, COMPLAINT, REGISTER, COMPLAINTS,ABOUT, PAGENOTFOUND, PROFILE,SIMON, ROOMS, ROOM, ANALYTICS, ADDISSUE, CALENDAR, ASSIGNED } from "./utils/Routes";
+import { HOME, LOGIN, COMPLAINT, REGISTER, COMPLAINTS,ABOUT, PAGENOTFOUND, PROFILE,SIMON, ROOMS, ROOM, ANALYTICS, ADDISSUE, CALENDAR, ASSIGNED, PEOPLE } from "./utils/Routes";
 import Simon from "./pages/Simon";
 import Analytics from './admin-ui/analytics/Analytics'
 
@@ -13,6 +13,7 @@ import HotLineRooms from "./pages/hotlinerooms/HotLineRooms";
 import HotlineRoom from "./pages/room/HotlineRoom";
 import CalendarPage from "./pages/calendar/Calendar";
 import AssignedIssues from "./admin-ui/AssignedIssues/AssignedIssues";
+import UserManagement from "./admin-ui/UserManagement/People";
 
 
 
@@ -41,6 +42,7 @@ return (
               <Route path={CALENDAR} element={<CalendarPage />} />
               <Route path={COMPLAINT} element={<ComplaintDetails />}/>
               <Route path={ASSIGNED} element={<AssignedIssues />} />  
+              <Route path={PEOPLE} element={<UserManagement />} />
             </Routes>
       </div>
   );

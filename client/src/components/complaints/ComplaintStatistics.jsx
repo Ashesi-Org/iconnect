@@ -50,7 +50,7 @@ const ComplaintsStatistics = ({ statistics, onClick}) => {
                 strokeDasharray={`${percentage} 100`}
                 strokeLinecap="round"
               />
-             {percentage > 0 && <text x="5" y="20.35" className="text-xs font-medium text-center text-gray-600">{`${percentage.toFixed(0)}%`}</text>} 
+             {percentage > 0 && <text x="11" y="20.35" className="text-xs font-medium text-center text-gray-600">{`${percentage.toFixed(0)}%`}</text>} 
                 
             </svg>
             <span className="text-gray-500 mt-2 capitalize">{status}</span>

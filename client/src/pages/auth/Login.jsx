@@ -4,6 +4,7 @@ import Input from "../../components/ui/Input";
 import { Logo } from "../../components/ui/Logo";
 import ButtonM from "../../components/ui/ButtonM";
 import google from "../../assets/google.png"
+import office from "../../assets/office.jpeg"
 import useScreenType from "../../hooks/useScreenType";
 import { WebSocketContext } from "../../contexts/WebsocketContext";
 
@@ -50,6 +51,36 @@ const Login = () => {
     };
 
 
+
+
+    const officeLogin = () => {
+        myDevice === "isDesktop"
+            ? window.open(
+                  `${
+                      "http://localhost:8000/auth/microsoft"
+                      // Replace with appropriate production or development URL
+                      // process.env.NODE_ENV === "production"
+                      //     ? `${process.env.REACT_APP_PROD_API}/auth/microsoft`
+                      //     : `${process.env.REACT_APP_DEV_API}/auth/microsoft`
+                  }`,
+                  "",
+                  `toolbar=no, location=no, directories=no, status=no, menubar=no, 
+                  scrollbars=no, resizable=no, copyhistory=no, width=${width}, 
+                  height=${height}, top=${top}, left=${left}`
+              )
+            : window.location.replace(
+                  `${
+                      "http://localhost:8000/auth/microsoft"
+                      // Replace with appropriate production or development URL
+                      // process.env.NODE_ENV === "production"
+                      //     ? `${process.env.REACT_APP_PROD_API}/auth/microsoft`
+                      //     : `${process.env.REACT_APP_DEV_API}/auth/microsoft`
+                  }`
+              );
+    };
+
+
+
     const { conn } = useContext(WebSocketContext);
     return (
         <div className="bg-app-background-1 w-screen h-screen flex justify-center place-content-center items-center">
@@ -93,8 +124,8 @@ const Login = () => {
                         Continue with Google
                     </ButtonM>
                         <span>OR</span>
-                    <ButtonM type="primary" className={`p-5 bg-input-bg-color`} icon={<img src={google} height={20} width={20} alt="Google Icon" />}>
-                        Continue with facebook 
+                    <ButtonM  onClick={() => {officeLogin();}} type="primary" className={`p-5 bg-input-bg-color`} icon={<img src={office} height={20} width={20} alt="Google Icon" />}>
+                        Continue with office 
                     </ButtonM>
                 </div>
                   <div className="text-sm text-center pb-2 text-gray-400">

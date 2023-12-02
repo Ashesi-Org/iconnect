@@ -5,35 +5,46 @@ import EmojiPicker from "emoji-picker-react";
 import { categories } from "../hotline-room/hotline-feed/Constants";
 import { api } from "../../api";
 import Loader from "../ui/Loader";
-
-  import {
-  ToastProvider,
-  ToastViewport,
-  Toast,
-  ToastTitle,
-  ToastDescription,
-  ToastClose,
-  ToastAction,
-} from '../ui/toast';
 import { userContext } from "../../contexts/UserContext";
 import { checkForSwearWords, validateFormData } from "../../utils/validation";
+import toast from "react-hot-toast";
+import useAzureBlobUploader from "../../hooks/useAzureBlobUploader";
 
 
 const ComplaintForm = () => {
-    const {user:current_user} = useContext(userContext);
+  const { user: current_user } = useContext(userContext);
   const [anonymous, setAnonymous] = useState(false);
   const [category, setCategory] = useState(1);
   const [subject, setSubject] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState("");
-  const [image, setImage] = useState(null);
   const [emoji, setEmoji] = useState(null);
-  const [comment, setComment] = useState("");
+
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [showSuccessToast, setShowSuccessToast] = useState(false);
-  const [showErrorToast, setShowErrorToast] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [file, setFile] = useState(null);
+
+  // Azure Storage Connection Config
+  const connectionString = "BlobEndpoint=https://educaidblob.blob.core.windows.net/;QueueEndpoint=https://educaidblob.queue.core.windows.net/;FileEndpoint=https://educaidblob.file.core.windows.net/;TableEndpoint=https://educaidblob.table.core.windows.net/;SharedAccessSignature=sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2025-01-04T02:24:24Z&st=2023-11-30T18:24:24Z&spr=https&sig=O8GeVzH4M61t%2FL0jzKYWB29i5bdcbp3WRNnTEiO3mdQ%3D";
+  const containerName = "iconnect"
+  const token = "?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2025-01-04T02:24:24Z&st=2023-11-30T18:24:24Z&spr=https&sig=O8GeVzH4M61t%2FL0jzKYWB29i5bdcbp3WRNnTEiO3mdQ%3D"
+  const accountName = "educaidblob"
+
+  const { uploadFile, fileUrl } = useAzureBlobUploader(connectionString, token, containerName);
+
+
+  const handleFileChange = async (e) => {
+  const selectedFile = e.target.files[0]; // Get the selected file
+  setFile(selectedFile); // Set the file state with the selected file
+
+  if (selectedFile) {
+    const uploadedUrl = await uploadFile(selectedFile); // Use the selected file for upload
+  } else {
+    console.error('No file selected.');
+  }
+};
+
+
 
   const handleEmojiSelection = (emoji) => {
     setEmoji(emoji.native);
@@ -60,76 +71,60 @@ const ComplaintForm = () => {
     setPriority(e.target.value);
   };
 
-  const handleImageUpload = (e) => {
-    // Handle image upload logic
-    const selectedImage = e.target.files[0];
-    setImage(selectedImage);
-  };
 
   const createIssue = async () => {
-  setIsSaving(true); // Set saving state to true when submitting
+    setIsSaving(true);
 
-  // Validate form data before submission
-  const isFormDataValid = validateFormData(subject, category, description, priority);
+    const isFormDataValid = validateFormData(subject, category, description, priority);
 
-  if (isFormDataValid) {
-    // Check for swear words in subject or description using the API
-    const hasSwearWords = await checkForSwearWords(`${subject} ${description}`);
+    if (isFormDataValid) {
+      const hasSwearWords = await checkForSwearWords(`${subject} ${description}`);
 
-    if (!hasSwearWords) {
-      try {
-        const formData = {
-          user_id: current_user?.userId,
-          category_id: category,
-          title: subject,
-          anonymous,
-          description,
-          attachment_url: "",
-          status: "open",
-          priority,
-        };
+      if (!hasSwearWords) {
+        try {
+          const formData = {
+            user_id: current_user?.userId,
+            category_id: category,
+            title: subject,
+            anonymous,
+            description,
+            attachment_url: "",
+            status: "open",
+            priority,
+          };
 
-        const response = await api.post("/api/issues/create", formData);
-        if (response.data.success) {
-          setShowSuccessToast(true);
-          setTimeout(() => {
-            setShowSuccessToast(false);
-          }, 3000);
-          setSubject("");
-          setDescription("");
-          setPriority("");
-          setCategory(1);
-          setAnonymous(false);
-          setEmoji(null);
-        } else {
-          setErrorMessage("Error creating issue. Please try again later.");
-          setShowErrorToast(true);
+          const response = await api.post("/api/issues/create", formData);
+
+          if (response.data.success) {
+            toast.success("Issue created successfully", { duration: 3000, });
+            resetForm();
+          } else {
+            toast.error("Error creating issue. Please try again later.", { duration: 3000, })
+            setIsSaving(false);
+          }
+        } catch (error) {
+          toast.error("Error creating issue. Please try again later.", { duration: 3000, });
+        } finally {
+          setIsSaving(false);
         }
-      } catch (error) {
-        console.error("Error creating issue:", error);
-        setShowErrorToast(true);
-      } finally {
+      } else {
+        toast.error("Swear words detected. Please remove them before submitting.", { duration: 3000, });
         setIsSaving(false);
       }
     } else {
-      console.log("Swear words detected. Please remove them before submitting.");
-      setErrorMessage("Swear words detected. Please remove them before submitting.");
-       setShowErrorToast(true);
-          setTimeout(() => {
-            setShowErrorToast(false);
-          }, 3000);
-    setIsSaving(false);
-
+      toast.error("Invalid form data. Please check your inputs.", { duration: 3000, })
+      setIsSaving(false);
     }
-  } else {
-    setErrorMessage("Invalid form data. Please check your inputs.");
-      setShowErrorToast(true);
-          setTimeout(() => {
-            setShowErrorToast(false);
-          }, 3000);
-    setIsSaving(false);
-  }
-};
+  };
+
+  const resetForm = () => {
+    setSubject("");
+    setDescription("");
+    setPriority("");
+    setCategory(1);
+    setAnonymous(false);
+    setEmoji(null);
+  };
 
 
   return (
@@ -187,7 +182,7 @@ const ComplaintForm = () => {
             {showEmojiPicker ? "😅" : "😅"}
           </button>
 
-          {showEmojiPicker && <EmojiPicker setEmoji={setEmoji}  />}
+          {showEmojiPicker && <EmojiPicker setEmoji={setEmoji} />}
         </div>
 
         <div className="mb-4 text-lg">
@@ -229,7 +224,7 @@ const ComplaintForm = () => {
         <div className="mb-4">
           <input
             type="file"
-            onChange={handleImageUpload}
+            onChange={handleFileChange}
             className="border-gray-300 rounded p-2"
           />
         </div>
@@ -240,7 +235,7 @@ const ComplaintForm = () => {
           onClick={createIssue}
 
         >
-          {isSaving ? <Loader width={20} height={20} message={"checking..."}/> : "Submit"}
+          {isSaving ? <Loader width={20} height={20} message={"checking..."} /> : "Submit"}
         </ButtonM>
       </div>
 
@@ -278,13 +273,13 @@ const ComplaintForm = () => {
               <strong>Reactions:</strong> {emoji || "Not selected"}
             </p>
           </div>
-          {image && (
+          {fileUrl && (
             <div className="mb-4">
               <p className="text-gray-700">
-                <strong>Image:</strong>
+                <strong>Attached</strong>
               </p>
               <img
-                src={URL.createObjectURL(image)}
+                src={fileUrl}
                 alt="Uploaded"
                 className="mt-2 rounded-md"
               />
@@ -292,30 +287,6 @@ const ComplaintForm = () => {
           )}
         </div>
       </div>
-            {/* Toast components */}
-      {showSuccessToast && (
-        <ToastProvider>
-          <ToastViewport>
-            <Toast>
-              <ToastTitle>Success</ToastTitle>
-              <ToastDescription>Complaint raised successfully.</ToastDescription>
-              <ToastClose onClick={() => setShowSuccessToast(false)} />
-            </Toast>
-          </ToastViewport>
-        </ToastProvider>
-      )}
-      {showErrorToast && (
-        <ToastProvider>
-          <ToastViewport>
-            <Toast className="bg-red-200">
-              <ToastTitle className="text-red-500">Error</ToastTitle>
-              <ToastDescription>{errorMessage}</ToastDescription>
-              <ToastClose onClick={() => setShowErrorToast(false)} />
-            </Toast>
-          </ToastViewport>
-        </ToastProvider>
-      )}
-
     </div>
   );
 };

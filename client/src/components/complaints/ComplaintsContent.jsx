@@ -21,7 +21,6 @@ const ComplaintsContent = ({ complaintData, onIssueUpdated, onIssueDeleted}) => 
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [statusModalVisible, setStatusModalVisible] = useState(false);
   const [selectedIssue, setSelectedIssue] = useState(null);
-  const [activeIssues, setActiveIssues] = useState({});
   const [filteredData, setFilteredData] = useState(complaintData);
   
   console.log(complaintData)
@@ -46,11 +45,6 @@ const ComplaintsContent = ({ complaintData, onIssueUpdated, onIssueDeleted}) => 
 
   const statistics = calculateStatistics(complaintData);
   const toggleComments = (issueId) => {
-    setActiveIssues((prev) => ({
-      ...prev,
-      [issueId]: !prev[issueId],
-    }));
-
     navigate(`/complaints/${issueId}`);
   };
 
@@ -157,30 +151,6 @@ const applyFilter = ({ categories, statuses, dateRange }) => {
                     </div>
                   </div>
                   <p className="text-gray-400 mt-2">{issue.description}</p>
-
-                  {activeIssues[issue.issue_id] &&
-                    issue.comments &&
-                    issue.comments.length > 0 && (
-                      <div className="mt-3">
-                        <h5 className="text-md font-semibold">Comments</h5>
-                        <div className="grid gap-3 mt-2">
-                          {issue.comments.map((comment, index) => (
-                            <div
-                              key={index}
-                              className="flex justify-between items-center bg-gray-200 p-3 rounded-lg"
-                            >
-                              <div>
-                                <p>{comment.comment_text}</p>
-                                <span className="text-gray-500 text-sm">
-                                  {moment(comment.created_at).fromNow()}
-                                </span>
-                              </div>
-                              {/*  */}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
 
                   <div className="flex justify-between items-center mt-3">
                     <span className="text-sm text-gray-500">

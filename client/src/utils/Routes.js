@@ -23,6 +23,8 @@ export const DASHBOARD = "/admin/dashboard"
 export const ANALYTICS = '/admin/dashboard/analytics'
 export const ASSIGNED = '/admin/dashboard/assigned'
 export const CALENDAR = '/admin/calendar'
+export const REPORTS =  '/admin/reports' 
+export const PEOPLE = '/admin/people'
 
 // Protected routes
 
