@@ -14,7 +14,7 @@ const Profile = () => {
           <AppSideBar
           />
         }
-
+        
         column={
             <ProfileContent />
           }
