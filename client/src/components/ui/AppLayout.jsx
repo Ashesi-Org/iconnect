@@ -9,7 +9,7 @@ export const AppLayout = ({ sidebar, column }) => {
 
   return (
     <>
-      <main className="w-screen h-screen bg-app_bg_deepest bg-app-background-1 fixed text-app-white font-body  space-y-8">
+      <main className="w-screen h-screen  bg-app-background-1 fixed text-app-white font-body  space-y-8">
         <div className="w-screen overflow-x-hidden flex items-start">
           {sidebar}
           <div className="grid grid-cols-10 w-full h-full overflow-hidden">

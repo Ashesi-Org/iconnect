@@ -17,6 +17,7 @@ import {Select, SelectTrigger,
   ToastClose,
   ToastAction,
 } from '../ui/toast';
+import { getStatusIndicator } from './ComplaintStatusIndicator';
 const UpdateComplaintStatus = ({ onIssueUpdated, issueId, issueStatus, possibleStatuses, closeModal }) => {
 
 
@@ -72,7 +73,7 @@ const UpdateComplaintStatus = ({ onIssueUpdated, issueId, issueStatus, possibleS
       
       <div className="flex items-center">
         <span className="text-sm font-medium text-gray-700 mr-2">Current Status:</span>
-        <span className="px-2 py-1 text-xs font-semibold rounded-md bg-gray-500 text-white">{issueStatus}</span>
+        <span className="px-2 py-1">{getStatusIndicator(issueStatus)}</span>
       </div>
       
       <div className="flex items-center h-[80px]">

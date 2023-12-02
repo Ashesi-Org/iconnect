@@ -2,27 +2,41 @@ import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const ComplaintsFilter = ({ categories, statuses, onFilterChange }) => {
+const ComplaintsFilter = ({ categories, priorities, onFilterChange }) => {
+ 
+
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [selectedStatuses, setSelectedStatuses] = useState([]);
+  const [selectedPriorities, setSelectedPriorities] = useState([]);
   const [dateRange, setDateRange] = useState({ start: null, end: null });
 
   const handleCheckboxChange = (value, state, setState) => {
-    const newState = [...state];
-    if (newState.includes(value)) {
-      newState.splice(newState.indexOf(value), 1);
+    const updatedState = [...state];
+    if (updatedState.includes(value)) {
+      updatedState.splice(updatedState.indexOf(value), 1);
     } else {
-      newState.push(value);
+      updatedState.push(value);
     }
-    setState(newState);
-    onFilterChange({ categories: selectedCategories, statuses: selectedStatuses, dateRange });
+    setState(updatedState);
   };
 
   const handleDateChange = (dates) => {
+    console.log(dates); 
     const [start, end] = dates;
     setDateRange({ start, end });
-    onFilterChange({ categories: selectedCategories, statuses: selectedStatuses, dateRange: { start, end } });
   };
+
+  const applyFilters = () => {
+    // Prepare the filter object based on selected options
+    const filters = {
+      categories: selectedCategories,
+      priorities: selectedPriorities,
+      dateRange,
+    };
+
+    // Pass the filters to the parent component
+    onFilterChange(filters);
+  };
+
 
   return (
     <div className="filter-container bg-app-background-2 p-4 rounded-md">
@@ -41,21 +55,21 @@ const ComplaintsFilter = ({ categories, statuses, onFilterChange }) => {
         </div>
       ))}
       <h3 className="text-lg font-semibold mb-2 mt-4">Filter by Status:</h3>
-      {statuses.map((status, index) => (
+      {priorities.map((priority, index) => (
         <div key={index} className="mb-2">
           <input
             type="checkbox"
             id={`status-${index}`}
-            value={status}
-            checked={selectedStatuses.includes(status)}
-            onChange={() => handleCheckboxChange(status, selectedStatuses, setSelectedStatuses)}
+            value={priority}
+            checked={selectedPriorities.includes(priority)}
+            onChange={() => handleCheckboxChange(priority, selectedPriorities, setSelectedPriorities)}
             className="mr-2"
           />
-          <label htmlFor={`status-${index}`}>{status}</label>
+          <label htmlFor={`status-${index}`}>{priority}</label>
         </div>
       ))}
       <h3 className="text-lg font-semibold mb-2 mt-4">Date Range:</h3>
-      <div className="mt-2">
+       <div className="mt-2">
         <DatePicker
           selected={dateRange.start}
           onChange={handleDateChange}
@@ -65,7 +79,10 @@ const ComplaintsFilter = ({ categories, statuses, onFilterChange }) => {
           inline
         />
       </div>
+      {/* Apply Filters button */}
+      <button onClick={applyFilters}>Apply Filters</button>
     </div>
+      
   );
 };
 

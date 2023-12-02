@@ -1,3 +1,7 @@
+import { useMemo, useCallback, useEffect, useState, useContext } from "react";
+import { useQuery, useQueryClient } from "react-query";
+import debounce from "lodash/debounce";
+
 // components
 import { AppLayout } from "../../components/ui/AppLayout";
 import { ContentScrollable } from "../../components/ui/ContentScrollable";
@@ -6,64 +10,108 @@ import TopTagBar from "../../components/complaints/TopTagBar";
 import Loader from "../../components/ui/Loader";
 import { api } from "../../api";
 import { userContext } from "../../contexts/UserContext";
-import { useContext } from "react";
-import { useQuery, useQueryClient } from "react-query";
 import AppSideBar from "../../components/common/AppSideBar";
+import { FeedCardSkeleton } from "../../components/hotline-room/hotline-feed/Feed";
 
-const fetchUserIssues = async (userId) => {
+
+
+const fetchUserIssues = async (userId, role) => {
   try {
-    const response = await api.get(`/api/issues/user/${userId}`);
+    let endpoint = '';
+    switch (role) {
+      case 'administrator':
+        endpoint = '/api/issues/';
+        break;
+      case 'resolver':
+        endpoint = `/api/issues/department/${userId}`;
+        break;
+      default:
+        endpoint = `/api/issues/user/${userId}`;
+    }    
+
+    const response = await api.get(endpoint);
     return response.data;
   } catch (error) {
     console.error(error);
     throw error;
-  }
-};
+  }  
+};  
 
 
 const Complaints = () => {
   const { user } = useContext(userContext);
+  const [searchTerm, setSearchTerm] = useState('');
   const queryClient = useQueryClient();
-
   const { data: issueData, isLoading, isError, refetch } = useQuery(
-    ['userIssues', user?.userId],
-    () => fetchUserIssues(user?.userId),
-    { enabled: !!user?.userId }
+    ['userIssues', user?.userId, user?.role],
+    () => fetchUserIssues(user?.userId, user?.role),
+    {
+      enabled: !!user?.userId && !!user?.role,
+      refetchOnWindowFocus: false,
+      onError: (error) => {
+        console.error('Error fetching user issues:', error);
+      },
+    }
   );
 
-  const handleIssueUpdated = () => {
-    refetch();
-  };
+  const handleSearch = useCallback(
+    debounce((value) => {
+      setSearchTerm(value);
+    }, 300),
+    [setSearchTerm]
+  );
 
-  const handleIssueDeleted = () => {
+  const filteredIssues = useMemo(() => {
+    // if (!searchTerm || !issueData) return issueData;
+
+    return issueData?.filter(issue => {
+      // Ensure issue properties are strings before calling toLowerCase()
+      const category = String(issue?.category?.name || '').toLowerCase();
+      const title = String(issue?.title || '').toLowerCase();
+      const description = String(issue?.description || '').toLowerCase();
+
+      // Perform case-insensitive search
+      return (
+        category.includes(searchTerm.toLowerCase()) ||
+        title.includes(searchTerm.toLowerCase()) ||
+        description.includes(searchTerm.toLowerCase())
+      );
+    });
+  }, [searchTerm, issueData]);
+
+  // Refetch data when user or role changes
+  useEffect(() => {
+    refetch();
+  }, [refetch, user?.userId, user?.role]);
+
+  const handleIssueDeleted = useCallback(() => {
     queryClient.invalidateQueries('userIssues');
-  };
+  }, [queryClient]);
+
+  if (isError) {
+    return <div>Error fetching user issues</div>;
+  }
 
   if (isLoading) {
     return <Loader bgColor="bg-app-brown" width={40} height={40} />;
   }
 
   return (
-
-    <>
-      <AppLayout
-        sidebar={<AppSideBar />}
-        column={
-          <ContentScrollable
-            nav1={<TopTagBar />}
-            content={
-            
+    <AppLayout
+      sidebar={<AppSideBar />}
+      column={
+        <ContentScrollable
+          nav1={<TopTagBar onSearch={handleSearch} />} // Pass handleSearch function
+          content={
             <ComplaintsContent
-                complaintData={issueData}
-                onIssueUpdated={handleIssueUpdated}
-                onIssueDeleted={handleIssueDeleted}
-              />}
-          />
-        }
-      />
-    </>
+              complaintData={filteredIssues} // Use filteredIssues
+              onIssueDeleted={handleIssueDeleted}
+            />
+          }
+        />
+      }
+    />
+  );
+};
 
-  )
-}
-
-export default Complaints
+export default Complaints;

@@ -61,7 +61,7 @@ const IssueDetailedContent = ({ issue }) => {
 
 
     return (
-        <div className="p-4 bg-white shadow rounded-md ">
+        <div className="bg-white shadow rounded-md ">
             
             <div className="flex flex-col items-center gap-1 flex-grow">
                 <div className="flex justify-between w-full flex-col">
@@ -182,7 +182,16 @@ const IssueDetailedContent = ({ issue }) => {
                 }
 
             </div>
-            <div className="mt-8">
+            <div className="mt-8 flex flex-col">
+                <h2 className="text-xl font-md mb-4">Commenting as</h2>
+                <div className='flex items-center'>
+
+
+                 <img
+                                src={current_user?.avatarUrl}
+                                alt="User Avatar"
+                                className="w-8 h-8 rounded-full mr-3"
+                            />
                 <textarea
                     className="w-full bg-app-background-2 p-4 border border-gray-300 rounded-md resize-none focus:outline-none focus:border-app-brown"
                     rows="4"
@@ -190,6 +199,7 @@ const IssueDetailedContent = ({ issue }) => {
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                 ></textarea>
+                </div>
 
                 {/* Conditional rendering for emoji icon and picker */}
                 <div className="flex justify-between items-center mt-4">

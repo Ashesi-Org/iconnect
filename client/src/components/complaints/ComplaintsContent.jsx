@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Settings, Trash2, Edit } from "lucide-react";
 import { userContext } from "../../contexts/UserContext";
@@ -22,7 +22,10 @@ const ComplaintsContent = ({ complaintData, onIssueUpdated, onIssueDeleted}) => 
   const [statusModalVisible, setStatusModalVisible] = useState(false);
   const [selectedIssue, setSelectedIssue] = useState(null);
   const [filteredData, setFilteredData] = useState(complaintData);
-  
+  useMemo(() => {
+    setFilteredData(complaintData);
+  }, [complaintData]);
+
   console.log(complaintData)
   const [deleteConfirmationVisible, setDeleteConfirmationVisible] = useState(false);
 
@@ -54,6 +57,8 @@ const ComplaintsContent = ({ complaintData, onIssueUpdated, onIssueDeleted}) => 
     const rearrangedData = filtered.concat(remaining);
     setFilteredData(rearrangedData);
   };
+
+
 
   const openEditModal = (issue) => {
     setSelectedIssue(issue);
@@ -89,35 +94,41 @@ const ComplaintsContent = ({ complaintData, onIssueUpdated, onIssueDeleted}) => 
     setSelectedIssue(null);
   };
 
-  const [appliedFilter, setAppliedFilter] = useState({
-    categories: [],
-    statuses: [],
-    dateRange: [0, 100],
-  });
+  const priorities = ["high", "medium", "low"]; 
 
 
-const applyFilter = ({ categories, statuses, dateRange }) => {
-  setAppliedFilter({ categories, statuses, dateRange });
 
-  const startDate = dateRange.start;
-  const endDate = dateRange.end;
+  const applyFilter = (filters) => {
+    let filtered = complaintData;
 
-  const filtered = complaintData?.filter((issue) => {
-    const categoryFilter = categories.length === 0 || categories.includes(issue.category.name);
-    const statusFilter = statuses.length === 0 || statuses.includes(issue.status);
-    
-    const createdAt = new Date(issue.created_at);
+    // Apply category filter
+    if (filters.categories.length > 0) {
+      filtered = filtered.filter((issue) =>
+        filters.categories.includes(issue.category)
+      );
+    }
 
-    const dateFilter = startDate === null || endDate === null || (createdAt >= startDate && createdAt <= endDate);
+    // Apply priority filter
+    if (filters.priorities.length > 0) {
+      filtered = filtered.filter((issue) =>
+        filters.priorities.includes(issue.priority)
+      );
+    }
 
-    return categoryFilter && statusFilter && dateFilter;
-  });
+    // Apply date range filter
+    if (filters.dateRange.start && filters.dateRange.end) {
+      filtered = filtered.filter((issue) =>
+        moment(issue.created_at).isBetween(
+          filters.dateRange.start,
+          filters.dateRange.end
+        )
+      );
+    }
 
-  setFilteredData(filtered);
-};
+    // Update the filtered data
+    setFilteredData(filtered);
+  };
 
-
-  const statuses = ["open", "in-progress", "resolved", "closed"]; 
 
   return (
     <div className="flex flex-shrink-0 flex-col gap-2 p-5">
@@ -128,7 +139,7 @@ const applyFilter = ({ categories, statuses, dateRange }) => {
             <div className="filter-sidebar w-1/4 ">
               <ComplaintsFilter
                 categories={categories}
-                statuses={statuses}
+                priorities={priorities}
                 onFilterChange={applyFilter} />
             </div>
             <div className="grid gap-4 flex-shrink-0 pb-5 rounded-xl w-3/4">
@@ -143,7 +154,10 @@ const applyFilter = ({ categories, statuses, dateRange }) => {
                   >
                     <h4 className="text-lg font-semibold ">
                       AIS {issue.issue_id}: {issue.title}
-                      <span className="text-xs pl-5 font-normal text-orange-500">{issue.assignmentStatus}</span>
+                      {issue.assignmentStatus === "Assigned" ? (
+                        
+                      <span className="text-xs pl-5 font-normal text-blue-800">{issue.assignmentStatus}</span>
+                      ): <span className="text-xs pl-5 font-normal text-orange-600">{issue.assignmentStatus}</span>}
                     </h4>
                     <div className="flex p-1 gap-2">
                       {getStatusIndicator(issue.status)}
@@ -223,7 +237,7 @@ const applyFilter = ({ categories, statuses, dateRange }) => {
               onIssueUpdated = {onIssueUpdated}
               issueId={selectedIssue?.issue_id}
               issueStatus={selectedIssue?.status}
-              possibleStatuses={["open", "in-progress", "closed", "resolved"]}
+              possiblepriorities={["open", "in-progress", "closed", "resolved"]}
               closeModal={closeStatusModal}
             />
           }

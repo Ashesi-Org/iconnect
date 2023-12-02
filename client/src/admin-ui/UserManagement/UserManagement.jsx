@@ -6,6 +6,7 @@ import ChangeRoleConfirm from './ChangeRoleConfirm';
 import toast from 'react-hot-toast';
 import TableLoader from './PeopleSkeleton';
 import { capitalizeInitials } from '../../utils/functions';
+import SearchBox from '../../components/ui/SearchBox';
 
 const fetchUsers = async () => {
   const response = await  api.get('/api/user/admin/all');
@@ -96,21 +97,17 @@ const UserManagement = () => {
   }
 
   return (
-    <div className="p-6 w-4/5">
+    <div className="p-6 w-4/5 shadow-md">
       <h1 className="text-2xl font-semibold mb-4">User Management</h1>
       <div className="mb-4">
-        <input
-          type="text"
-          placeholder="Search by name"
-          value={searchTerm}
-          onChange={e => setSearchTerm(e.target.value)}
-          className="border rounded px-3 py-2 w-full sm:w-64 focus:outline- none"
-        />
+        <SearchBox searchTerm={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
+
       </div>
       <div className="overflow-x-auto">
-        <table className="min-w-full border rounded-lg overflow-hidden">
+        <table className="min-w-full border border-gray-100 rounded-lg ">
           <thead className="bg-gray-200">
             <tr>
+              <th className="text-left py-2 px-3 font-semibold text-gray-700">Profile</th>
               <th className="text-left py-2 px-3 font-semibold text-gray-700">Name</th>
               <th className="text-left py-2 px-3 font-semibold text-gray-700">Email</th>
               <th className="text-left py-2 px-3 font-semibold text-gray-700">
@@ -126,8 +123,13 @@ const UserManagement = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredUsers.map(user => (
-              <tr key={user.user_id} className="bg-white">
+            {filteredUsers.map((user, index) => (
+              <tr key={user.user_id} className={`bg-${index % 2 === 0 ? 'white' : 'app-background-2'} hover:bg-gray-200 cursor-pointer`}>
+                <td className="py-5 px-3 flex items-center">  <img
+                                src={user?.avatar_url}
+                                alt="User Avatar"
+                                className="w-8 h-8 rounded-full mr-3"
+                            /></td>
                 <td className="py-2 px-3">{capitalizeInitials(user.display_name)}</td>
                 <td className="py-2 px-3">{user.email}</td>
                 <td className="py-2 px-3">{user.role}</td>
@@ -137,7 +139,7 @@ const UserManagement = () => {
                     // onChange={e => handleRoleChange(user.user_id, e.target.value)}
                     onChange={e => openRoleConfirmation({ user_id: user.user_id, display_name: user.display_name, role: e.target.value })}
 
-                    className="border rounded px-2 py-1"
+                  className="border rounded px-2 py-1 w-full focus:outline-none"
                   >
                     <option value="student">User</option>
                     <option value="administrator">Admin</option>

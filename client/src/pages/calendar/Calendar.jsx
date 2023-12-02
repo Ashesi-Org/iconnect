@@ -1,41 +1,75 @@
-import React from 'react';
-import SchedulerCalendar from '../../admin-ui/calendar/Calendar';
+import React, { useState } from 'react'
+import { Calendar, momentLocalizer } from 'react-big-calendar'
+import moment from 'moment'
+import Year from './Year'
+import 'react-big-calendar/lib/css/react-big-calendar.css'
+import './calendar.css'
+import { events } from '../../utils/events'
+import { AppLayout } from '../../components/ui/AppLayout'
+import AppSideBar from '../../components/common/AppSideBar'
+import { ContentScrollable } from '../../components/ui/ContentScrollable'
+import AppDialog from '../../components/ui/AppDialog'
+import EventDetails from './EventDetails'
 
-
-const events = [
-  {
-    id: 1,
-    title: 'Team Meeting',
-    start: new Date(2023, 10, 15, 10, 0),
-    end: new Date(2023, 10, 15, 12, 0),
-  },
-  {
-    id: 2,
-    title: 'Lunch with Jane',
-    start: new Date(2023, 10, 16, 12, 30),
-    end: new Date(2023, 10, 16, 13, 30),
-  },
-  {
-    id: 3,
-    title: 'Client Presentation',
-    start: new Date(2023, 10, 18, 9, 0),
-    end: new Date(2023, 10, 18, 11, 0),
-  },
-  {
-    id: 4,
-    title: 'Project Review',
-    start: new Date(2023, 10, 20, 14, 0),
-    end: new Date(2023, 10, 20, 16, 0),
-  },
-];
+const localizer = momentLocalizer(moment)
+localizer.formats.yearHeaderFormat = 'YYYY'
 
 const CalendarPage = () => {
-  return (
-    <div className="flex justify-center items-center flex-col w-screen h-screen">
-    <h1>Your Schedule</h1>
-    <SchedulerCalendar events={events} />
-    </div>
-  );
-};
+  const [eventDetailsVisible, setEventDetailsVisible] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null);
 
-export default CalendarPage;
+  const handleEventClick = event => {
+    setSelectedEvent(event);
+    setEventDetailsVisible(true);
+  };
+
+  const closeEventModal = () => {
+    setEventDetailsVisible(false);
+  };
+  return (
+    <AppLayout
+      sidebar={<AppSideBar />}
+      column={
+        <div>
+          <ContentScrollable
+            content={
+              <Calendar
+                localizer={localizer}
+                events={events}
+                toolbar={true}
+                defaultDate={new Date()}
+                startAccessor='start'
+                endAccessor='end'
+                views={{
+                  day: true,
+                  week: true,
+                  month: true,
+                  year: Year,
+                }}
+                messages={{ year: 'Year' }}
+                onSelectEvent={handleEventClick}
+              />
+            }
+          />
+
+          {eventDetailsVisible && selectedEvent &&
+            <AppDialog
+              defaultOpen={eventDetailsVisible}
+              open={eventDetailsVisible}
+              setOpenChange={closeEventModal}
+              content={
+                <EventDetails
+                  event={selectedEvent}
+                  closeModal={closeEventModal}
+                />
+              }
+            />
+          }
+        </div>
+      }
+    />
+
+  )
+}
+
+export default CalendarPage

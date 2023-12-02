@@ -1,30 +1,30 @@
-import React, { useEffect, useRef } from 'react';
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
+import React from 'react' 
+import {Calendar, momentLocalizer} from 'react-big-calendar'
+import moment from 'moment'
+import Year from './Year'
+import 'react-big-calendar/lib/css/react-big-calendar.css'
+import './calendar.css'
 
-const SchedulerCalendar = ({ events }) => {
-  const calendarRef = useRef(null);
+const localizer = momentLocalizer(moment)
+localizer.formats.yearHeaderFormat = 'YYYY'
 
-  useEffect(() => {
-    if (calendarRef.current) {
-      const calendarApi = calendarRef.current.getApi();
-      calendarApi.gotoDate(new Date());
-    }
-  }, []);
-
-  return (
-    <div className="flex justify-center items-center">
-      <div className="w-full sm:w-10/12 bg-white rounded-lg shadow-md">
-        <FullCalendar
-          ref={calendarRef}
-          plugins={[dayGridPlugin]}
-          initialView="dayGridMonth"
-          events={events}
-          className="m-4" 
+const CalendarPage = ()=>{
+    return (
+      <div className="app">
+        <Calendar
+          localizer={localizer}
+          events={[]}
+          toolbar={true}
+          views={{
+            day: true,
+            week: true,
+            month: true,
+            year: Year
+          }}
+          messages={{ year: 'Year' }}
         />
       </div>
-    </div>
-  );
-};
+    )
+  }
 
-export default SchedulerCalendar;
+export default CalendarPage

@@ -223,7 +223,7 @@ const FeedCard = ({ room }) => {
   );
 };
 
-const FeedCardSkeleton = () => {
+export const FeedCardSkeleton = () => {
   return (
     <Skeleton className="bg-app-background-2 h-auto p-5 rounded-xl cursor-pointer shadow-app_shadow">
       <div className="flex items-center">
