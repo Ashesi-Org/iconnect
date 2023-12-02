@@ -37,7 +37,8 @@ const WebrtcApp = () => {
     }
 
     conn.on("room-created", async (d) => {
-      await navigate(`/room/${d.roomId}`);
+      console.log("room created", d);
+      navigate(`/room/${d.roomId}`);
       useRTCStore.getState().set({ createRoomLoading: false });
     });
 

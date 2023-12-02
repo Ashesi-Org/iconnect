@@ -8,14 +8,14 @@ const ComplaintsStatistics = ({ statistics, onClick}) => {
 
   return (
     <div className="flex justify-around items-center mb-5">
-      {Object.keys(statistics).map((status) => {
+      {Object.keys(statistics)?.map((status, index) => {
         const value = statistics[status];
         const total = Object.values(statistics).reduce((acc, curr) => acc + curr, 0);
         const percentage = calculatePercentage(value, total);
 
         return (
             
-            <TooltipProvider>
+            <TooltipProvider key={index}>
                 <Tooltip>
                   <TooltipTrigger>
                     <div key={status} className="flex flex-col items-center cursor-pointer" onClick={() => onClick(status)}>
@@ -27,7 +27,7 @@ const ComplaintsStatistics = ({ statistics, onClick}) => {
                 r="15.91549430918954"
                 fill="transparent"
                 stroke="#ddd"
-                strokeWidth="3"
+                strokeWidth="2"
               />
               <circle
                 className="circle-progress"
@@ -46,19 +46,18 @@ const ComplaintsStatistics = ({ statistics, onClick}) => {
                     ? '#6b7280'
                     : ''
                 }
-                strokeWidth="3"
+                strokeWidth="2"
                 strokeDasharray={`${percentage} 100`}
                 strokeLinecap="round"
               />
-              <text x="8" y="20.35" className="text-xs font-semibold text-center text-gray-600">
-                {`${percentage.toFixed(0)}%`}
-              </text>
+             {percentage > 0 && <text x="5" y="20.35" className="text-xs font-medium text-center text-gray-600">{`${percentage.toFixed(0)}%`}</text>} 
+                
             </svg>
             <span className="text-gray-500 mt-2 capitalize">{status}</span>
           </div>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>filter by {status}</p>
+                    <p>Group by {status}</p>
                   </TooltipContent>
                 </Tooltip>
     </TooltipProvider>

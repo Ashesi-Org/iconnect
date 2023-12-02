@@ -25,7 +25,7 @@ import NotificationsSheet from "../common/NotificationsSheet";
 
 
 const NavBar = () => {
-  const { user, userLoading } = useContext(userContext);
+  const { user:auth_user, userLoading } = useContext(userContext);
   const queryClient = useQueryClient();
 
   const { conn } = useContext(WebSocketContext);
@@ -34,12 +34,12 @@ const NavBar = () => {
 
   const [profileOpen, setProfileSheetOpen] = useState(false);
   const { data: notifications, isLoading: notificationsLoading } = useQuery(
-    ["notifications", user?.userId],
+    ["notifications", auth_user?.userId],
     async () => {
-      const { data } = await api.get(`/api/profile/notification/${user.userId}`);
+      const { data } = await api.get(`/api/profile/notification/${auth_user.userId}`);
       return data;
     },
-    { enabled: !!user }
+    { enabled: !!auth_user }
   );
   const hasNewNotifications = notifications?.some(
     (notification) => notification.isRead === false
@@ -63,7 +63,7 @@ const NavBar = () => {
         >
           <img src="/logo.svg" width={25} className="mr-2" />
           <span className="relative">
-            Streams
+            iConnect
             <span className="absolute text-[8px] px-1 text-green-400">
               Beta
             </span>
@@ -98,11 +98,11 @@ const NavBar = () => {
               <button
                 onClick={async () => {
                   await api.patch(
-                    `/api/profile/notification/markAsRead/${user.userId}`
+                    `/api/profile/notification/markAsRead/${auth_user?.userId}`
                   );
                   queryClient.invalidateQueries([
                     "notifications",
-                    user?.userId,
+                    auth_user?.userId,
                   ]);
                 }}
                 className="relative"
@@ -130,14 +130,14 @@ const NavBar = () => {
           <DropdownMenuTrigger asChild> */}
           <Sheet open={profileOpen} onOpenChange={setProfileSheetOpen}>
             <SheetTrigger asChild>
-              <button disabled={!user} className="hover:opacity-60">
+              <button disabled={!auth_user} className="hover:opacity-60">
                 {userLoading ? (
                   <Skeleton className="w-7 h-7 rounded-full" />
                 ) : (
                   <div className="w-6 h-6">
                     <img
-                      alt={`${user.userName}`}
-                      src={user.avatarUrl}
+                      alt={`${auth_user?.displayName} avatar`}
+                      src={auth_user?.avatarUrl}
                       className="rounded-full ring-2 object-cover w-full h-full"
                     />
                   </div>

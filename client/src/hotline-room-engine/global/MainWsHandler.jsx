@@ -269,7 +269,7 @@ import { useNavigate } from 'react-router-dom';
         nullify();
         closeAll();
         close();
-        await navigate("/home");
+        await navigate("/");
         queryClient.invalidateQueries(["user"]);
         queryClient.refetchQueries(["live-rooms"]);
         queryClient.removeQueries(["room"]);
@@ -291,7 +291,7 @@ import { useNavigate } from 'react-router-dom';
             <div
               className={`${
                 t.visible ? "animate-enter" : "animate-leave"
-              }  w-autobg-app_bg_deeper shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
+            }  bg-app-background-3 shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
             >
               <div className="flex-1 w-full p-4 flex justify-between items-center">
                 <div className="flex items-start">
@@ -303,10 +303,10 @@ import { useNavigate } from 'react-router-dom';
                     />
                   </div>
                   <div className="ml-3 flex-1">
-                    <p className="text-sm font-medium text-white">
+                    <p className="text-sm font-medium text-app-white">
                       {user.userName}
                     </p>
-                    <p className="mt-1 text-sm text-white w-52 truncate abbrev">
+                    <p className="mt-1 text-sm text-app-white w-52 truncate abbrev">
                       invites you to {room.roomDesc}
                     </p>
                   </div>
@@ -375,7 +375,7 @@ import { useNavigate } from 'react-router-dom';
       });
 
       conn.on("kicked-from-room", async ({ roomId }) => {
-        await api.post(`/room/leave?roomId=${roomId}`).then(async res => {
+        await api.post(`/api/room/leave?roomId=${roomId}`).then(async res => {
           await navigate("/");
           toast("Host kicked you ⚒", {
             style: {

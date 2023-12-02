@@ -87,6 +87,7 @@ const room = () => {
       return;
     }
 
+    console.log("about to initiate rtc")
     conn.emit("rtc:join_room", {
       roomId,
       roomMeta: {
@@ -98,43 +99,48 @@ const room = () => {
     hasJoined.current = true;
   }, [roomId, userLoading, conn, roomLoading]);
 
-  if (typeof room === "string") {
-    console.log(room);
-    if (room === "404") {
-      return (
-        <div className="bg-app_bg_deepest text-white w-screen h-screen flex items-center justify-center">
-          <div className="flex flex-col items-center space-y-3">
-            <VscDebugDisconnect color="white" size={50} />
-            <div className="text-white">Room ended or doesn't exist</div>
-            <Button
-              onClick={() => navigate("/")}
-              className="w-full bg-app_bg_deeper p-3 h-12 font-bold"
-            >
-              Back to Home
-            </Button>
-          </div>
-        </div>
-      );
-    }
-    if (room === "403") {
-      return (
-        <div className="bg-app_bg_deepest text-white w-screen h-screen flex items-center justify-center">
-          <div className="flex flex-col items-center space-y-3">
-            <BanIcon color="white" size={50} />
-            <div className="text-white">
-              Host/Mods banned you from this room
-            </div>
-            <Button
-              onClick={() => navigate("/")}
-              className="w-full bg-app_bg_deeper p-3 h-12 font-bold"
-            >
-              Back to Home
-            </Button>
-          </div>
-        </div>
-      );
-    }
-  }
+  console.log(room)
+
+  // return (<>
+  //     </>)
+
+  // if (typeof room === "string") {
+  //   console.log(room);
+  //   if (room === "404") {
+  //     return (
+  //       <div className="bg-app_bg_deepest text-white w-screen h-screen flex items-center justify-center">
+  //         <div className="flex flex-col items-center space-y-3">
+  //           <VscDebugDisconnect color="white" size={50} />
+  //           <div className="text-white">Room ended or doesn't exist</div>
+  //           <Button
+  //             onClick={() => navigate("/")}
+  //             className="w-full bg-app_bg_deeper p-3 h-12 font-bold"
+  //           >
+  //             Back to Home
+  //           </Button>
+  //         </div>
+  //       </div>
+  //     );
+  //   }
+  //   if (room === "403") {
+  //     return (
+  //       <div className="bg-app_bg_deepest text-white w-screen h-screen flex items-center justify-center">
+  //         <div className="flex flex-col items-center space-y-3">
+  //           <BanIcon color="white" size={50} />
+  //           <div className="text-white">
+  //             Host/Mods banned you from this room
+  //           </div>
+  //           <Button
+  //             onClick={() => navigate("/")}
+  //             className="w-full bg-app_bg_deeper p-3 h-12 font-bold"
+  //           >
+  //             Back to Home
+  //           </Button>
+  //         </div>
+  //       </div>
+  //     );
+  //   }
+  // }
   return room && roomStatus && !roomLoading ? (
     <>
       
@@ -148,7 +154,7 @@ const room = () => {
       <VoiceRoomsLayout
         navbar={<NavBar />}
         column1={<RoomArea />}
-        footer={<RoomFooter />}
+        // footer={<RoomFooter />}
       />
     </>
   ) : (

@@ -15,6 +15,7 @@ import SoundEffectPlayer from './hotline-room-engine/room/sound/SoundEffectPlaye
 import { createBrowserHistory } from 'history';
 import { BrowserRouter } from 'react-router-dom';
 
+
 const history = createBrowserHistory();
 const queryClient = new QueryClient();
 
@@ -23,16 +24,15 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <UserProvider>
-        <NProgress options={{ OnRouteChange: true, showSpinner: false, trickle: true, trickleRate: 0.1 }} />
-        <WebSocketProvider>
+        {/* <NProgress options={{ OnRouteChange: true, showSpinner: false, trickle: true, trickleRate: 0.1 }} /> */}
+        {/* <WebSocketProvider> */}
           <MainWsHandler history={history}>
             <WebrtcApp />
             <App />
           </MainWsHandler>
           {/* <ChatWsHandler /> */}
-          {/* Assuming SoundEffectPlayer is imported */}
           <SoundEffectPlayer />
-        </WebSocketProvider>
+        {/* </WebSocketProvider> */}
         <Toaster position="bottom-center" reverseOrder={true} />
         <ReactQueryDevtools initialIsOpen={false} />
       </UserProvider>

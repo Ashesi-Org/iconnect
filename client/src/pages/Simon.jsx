@@ -1,42 +1,45 @@
-import React from 'react'
-import { Home, Layers, HelpingHand, Settings } from 'lucide-react';
-import { AppLayout } from '../components/ui/AppLayout';
-import { SideNav } from '../components/ui/SideNav';
+import React from "react";
+import MapContainer from "../components/complaints/MapContainer";
+import { AppLayout } from "../components/ui/AppLayout";
+import AppSideBar from "../components/common/AppSideBar";
+import MarkdownEditor from "../components/report/MarkDownEditor";
+import { ContentScrollable } from "../components/ui/ContentScrollable";
+import ReportComponent from "../components/report/reportComponent";
+import { useQuery } from "react-query";
+import { api } from "../api";
 
 
 const Simon = () => {
-    
+
+  const {data:reportData} = useQuery('reportsData', 
+
+   async () => {
+    const res = await api.get('/api/reports/generate-report');
+    return res.data.data;
+  },
+
+  
+  );
+  
+console.log(reportData);
   return (
+    <AppLayout column={
+      <ContentScrollable content={
+    <><div className="flex flex-col">
 
-    <AppLayout sidebar={<SideNav tabIcons={[
-              <Home
-                className="text-app-white group-active:scale-90 transition-all duration-50 ease-in"
-                size={20}
-              />,
-              <Layers
-                className="text-app-white group-active:scale-90 transition-all duration-50 ease-in"
-                size={20}
-              />,
-              <HelpingHand
-                className="text-app-white group-active:scale-90 transition-all duration-50 ease-in"
-                size={20}
-              />,
-              <Settings
-                className="text-app-white group-active:scale-90 transition-all duration-50 ease-in"
-                size={20}
-              />,
-            ]}/>} column2={<PageContent />}>
-    </AppLayout>   
-  )
-}
+          <div>
+            {/* <h1 className="text-3xl font-bold mb-8">General Reports</h1> */}
+            {reportData && <ReportComponent data={reportData} />}
+          </div>
+        </div>
+        <h2 className="text-slate-500 pl-4">Add a customized and formatted additional insights to the report</h2>
+        <MarkdownEditor />
+        </>}
+  
+    />}
+    sidebar={<><AppSideBar /></>}
+    />
+  );
+};
 
-export default Simon
-
-const PageContent = () =>{
-    return (
-      <div >
-
-        
-      </div>
-    );
-}
+export default Simon;
