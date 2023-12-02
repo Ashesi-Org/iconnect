@@ -13,8 +13,8 @@ const fetchUsers = async () => {
   return response.data;
 };
 
-const updateUserRole = async ({ userId, newRole }) => {
-  await api.patch(`/api/user/role/${userId}`, { newRole: newRole });
+const updateUserRole = async ({ userId, newRole, category_id }) => {
+  await api.patch(`/api/user/role/${userId}?categoryId=${category_id}`, { newRole: newRole });
 };
 
 const UserManagement = () => {
@@ -26,7 +26,7 @@ const UserManagement = () => {
   const openRoleConfirmation = (user) => {
     setSelectedUser(user);
     setChangeRoleConfirmVisible(true);
-  };
+  }
 
   const closeRoleConfirmation = () => {
     setChangeRoleConfirmVisible(false);
@@ -52,9 +52,9 @@ const UserManagement = () => {
     },
   });
 
-  const handleRoleChange = (userId, newRole) => {
+  const handleRoleChange = (userId, newRole,category_id) => {
     console.log(userId, newRole);
-    updateUserMutation.mutate({ userId, newRole });
+    updateUserMutation.mutate({ userId, newRole, category_id });
   };
 
   const filteredUsers = useMemo(() => {

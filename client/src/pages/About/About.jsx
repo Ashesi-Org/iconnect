@@ -1,12 +1,6 @@
 import courtyard from '../../assets/courtyard.png'
-import { Nfc, Home, Layers, Settings, Contact, HelpCircle } from "lucide-react";
 // components
 import { AppLayout } from "../../components/ui/AppLayout";
-import { SideNav } from "../../components/ui/SideNav";
-import { ContentScrollable } from "../../components/ui/ContentScrollable";
-import ComplaintsContent from "../../components/complaints/ComplaintsContent";
-import { CourseData } from "../../utils/Data";
-import TopTagBar from "../../components/complaints/TopTagBar";
 import AppSideBar from '../../components/common/AppSideBar';
 
 const About = () => {

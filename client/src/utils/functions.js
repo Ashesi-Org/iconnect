@@ -43,3 +43,11 @@ export const capitalizeInitials = (name) => {
   });
   return capitalizedWords.join(' ');
 };
+
+
+
+export const getInitials = (str) =>  {
+  let words = str.split(' ').slice(1);
+  let initials = words.map(word => word.charAt(0).toUpperCase());
+  return initials.join('');
+}

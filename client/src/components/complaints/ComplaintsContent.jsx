@@ -12,6 +12,7 @@ import ComplaintsFilter from "./ComplaintsFilter";
 import { categories } from "../hotline-room/hotline-feed/Constants";
 import DeleteIssue from "./DeleteIssue";
 import { getPriorityIndicator, getStatusIndicator } from "./ComplaintStatusIndicator";
+import { getInitials } from "../../utils/functions";
 
 
 const ComplaintsContent = ({ complaintData, onIssueUpdated, onIssueDeleted}) => {
@@ -153,7 +154,7 @@ const ComplaintsContent = ({ complaintData, onIssueUpdated, onIssueDeleted}) => 
                     onClick={() => toggleComments(issue.issue_id)}
                   >
                     <h4 className="text-lg font-semibold ">
-                      AIS {issue.issue_id}: {issue.title}
+                      {getInitials(issue?.category.name)} {issue.issue_id}: {issue.title}
                       {issue.assignmentStatus === "Assigned" ? (
                         
                       <span className="text-xs pl-5 font-normal text-blue-800">{issue.assignmentStatus}</span>

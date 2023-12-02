@@ -14,7 +14,7 @@ export const AppLayout = ({ sidebar, column }) => {
           {sidebar}
           <div className="grid grid-col-2 w-full h-full overflow-hidden">
             <Header selectedLink={selectedLink} setSelectedLink={setSelectedLink} inbox={inbox} setInbox={setInbox} />
-            <div className="col-span-8 py-20">{column}</div>
+            <div className="col-span-8 py-20 px-20">{column}</div>
           </div>
         </div>
       </main>
