@@ -157,7 +157,7 @@ const ComplaintForm = () => {
           <select
             value={category}
             onChange={handleCategoryChange}
-            className="block w-full border-gray-300 bg-app-background-2 shadow-md rounded p-2"
+            className="block w-full border-gray-300 bg-app-background-2 shadow-md rounded p-2 focus:none"
           >
             <option value="">Select Category</option>
             {categories.map((item, index) => {
@@ -175,7 +175,7 @@ const ComplaintForm = () => {
             value={description}
             onChange={handleDescriptionChange}
             placeholder="Description"
-            className="block w-full bg-app-background-2 shadow-md border-gray-300 rounded p-2"
+            className="block w-full bg-app-background-2 shadow-md border-gray-300 rounded p-2 focus:outline-none"
             rows="4"
           ></textarea>
           <button onClick={() => setShowEmojiPicker(!showEmojiPicker)}>

@@ -60,11 +60,8 @@ const EditComplaint = ({onIssueUpdated, priority, issueId, issueTitle, issueDesc
     <div className="flex flex-col space-y-4 bg-app-background-2 text-app-white p-5">
       <h3 className="text-lg font-medium leading-6 text-gray-900">Edit Issue #{issueId}</h3>
       <div>
-        <label htmlFor="title" className="block text-sm font-medium text-gray-700">
-          Title
-        </label>
         <div className="flex items-center h-[80px]">
-        <span className="text-[18px] font-medium text-app-white mr-2">Change Priority</span>
+        <span className="text-[18px] font-medium text-app-white mr-2">Priority</span>
          <Select value={selectedPriority} onValueChange={(val) => handlePriorityChange(val)}>
            
             <SelectTrigger>
@@ -81,6 +78,9 @@ const EditComplaint = ({onIssueUpdated, priority, issueId, issueTitle, issueDesc
         </Select>
        
       </div>
+        <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+          Title
+        </label>
         <Input
           type="text"
           name="title"
