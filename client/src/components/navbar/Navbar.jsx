@@ -8,6 +8,7 @@ import NotificationsSheet from '../common/NotificationsSheet';
 import { useQuery, useQueryClient } from 'react-query';
 import useScreenType from '../../hooks/useScreenType';
 import { api } from '../../api';
+import ProfileDropdown from './ProfileDropDown';
 
 const NavBar = ({ selectedLink, setSelectedLink, setInbox }) => {
   const myDevice = useScreenType();
@@ -97,13 +98,11 @@ const NavBar = ({ selectedLink, setSelectedLink, setInbox }) => {
           <NotificationsSheet />
         </SheetContent>
       </Sheet>
-      <Link to="/profile" className={`flex flex-row items-center dark:text-[#d9d9d9c7] pr-10 ${selectedLink === 'profile' ? 'selected' : ''}`} onClick={() => handleLinkClick('profile')}>
         <div className="bg-[#D9D9D9] w-[2px] h-[40px] mr-5 flex justify-between"></div>
-        <Profile profile={{ avatarUrl: user?.avatarUrl }} />
-        <div className="ml-4 text-app-white text-lg font-semibold">42112024</div>
-      </Link>
+        <div className='relative right-20'>
 
-
+        <ProfileDropdown />
+        </div>
     </nav>
   )
 }

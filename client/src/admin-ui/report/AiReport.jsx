@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useQueryClient, useMutation } from "react-query";
 import toast from "react-hot-toast";
-import ButtonM from "../ui/ButtonM";
-import Loader from "../ui/Loader";
+import ButtonM from "../../components/ui/ButtonM";
+import Loader from "../../components/ui/Loader";
 import A4Preview from "./A4Preview";
 import { Download } from "lucide-react";
 import axios from "axios";
-import { ContentScrollable } from "../ui/ContentScrollable";
+import { ContentScrollable } from "../../components/ui/ContentScrollable";
 
 const AiReport = ({ stat, closeGenerateConfirmation }) => {
   const queryClient = useQueryClient();

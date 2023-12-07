@@ -224,7 +224,7 @@ const ComplaintForm = () => {
         <div className="mb-4">
           <input
             type="file"
-            onChange={handleFileChange}
+            // onChange={handleFileChange}
             className="border-gray-300 rounded p-2"
           />
         </div>

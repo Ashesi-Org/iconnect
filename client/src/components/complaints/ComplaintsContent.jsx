@@ -48,8 +48,8 @@ const ComplaintsContent = ({ complaintData, onIssueUpdated, onIssueDeleted}) => 
   };
 
   const statistics = calculateStatistics(complaintData);
-  const toggleComments = (issueId) => {
-    navigate(`/complaints/${issueId}`);
+  const toggleComments = (issueId, categoryId) => {
+    navigate(`/complaints/${issueId}?categoryId=${categoryId}`);
   };
 
   const filterDataByStatus = (status) => {
@@ -151,7 +151,7 @@ const ComplaintsContent = ({ complaintData, onIssueUpdated, onIssueDeleted}) => 
                 >
                   <div
                     className="flex justify-between items-center"
-                    onClick={() => toggleComments(issue.issue_id)}
+                    onClick={() => toggleComments(issue.issue_id, issue.category_id)}
                   >
                     <h4 className="text-lg font-semibold ">
                       {getInitials(issue?.category.name)} {issue.issue_id}: {issue.title}

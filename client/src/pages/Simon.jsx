@@ -1,11 +1,10 @@
 import { BlobServiceClient, ContainerClient } from '@azure/storage-blob';
 import React , {useState}from "react";
-import MapContainer from "../components/complaints/MapContainer";
 import { AppLayout } from "../components/ui/AppLayout";
 import AppSideBar from "../components/common/AppSideBar";
-import MarkdownEditor from "../components/report/MarkDownEditor";
+import MarkdownEditor from "../admin-ui/report/MarkDownEditor";
 import { ContentScrollable } from "../components/ui/ContentScrollable";
-import ReportComponent from "../components/report/reportComponent";
+import ReportComponent from "../admin-ui/report/reportComponent";
 import { useQuery } from "react-query";
 import { api } from "../api";
 
@@ -13,7 +12,6 @@ import { api } from "../api";
 const Simon = () => {
 
   const {data:reportData} = useQuery('reportsData', 
-
    async () => {
     const res = await api.get('/api/reports/generate-report');
     return res.data.data;
@@ -27,7 +25,7 @@ console.log(reportData);
     <AppLayout column={
       <ContentScrollable content={
     <><div className="flex flex-col">
-          <AzureBlobUploader />
+          
           <div>
             {/* <h1 className="text-3xl font-bold mb-8">General Reports</h1> */}
             {reportData && <ReportComponent data={reportData} />}

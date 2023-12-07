@@ -1,9 +1,8 @@
 import { Bot, Download, ToggleLeftIcon } from 'lucide-react';
 import React, { useState } from 'react';
-import { BsFilePdf } from 'react-icons/bs';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, PieChart, Pie, Cell } from 'recharts';
 import AiReport from './AiReport';
-import AppDialog from '../ui/AppDialog';
+import AppDialog from '../../components/ui/AppDialog';
 
 const ReportComponent = ({ data }) => {
 

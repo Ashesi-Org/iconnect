@@ -34,7 +34,7 @@ const MarkdownEditor = () => {
   });
 
   return (
-    <div className=" gap-2 flex pt-5 p-4" data-color-mode="light">
+    <div className=" gap-2 flex pt-5 px-10" data-color-mode="light">
       {/* EDITOR */}
       <Resizable
         className="border border-gray-300 rounded-md"

@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { AppLayout } from "../../components/ui/AppLayout";
 import AppSideBar from "../../components/common/AppSideBar";
@@ -8,15 +8,30 @@ import IssueAssignee from "../../components/complaints/IssueAssignee";
 import { ContentScrollable } from "../../components/ui/ContentScrollable";
 import { api } from "../../api";
 import MapContainer from "../../components/complaints/MapContainer";
+import GoogleMap from "../../components/complaints/GoogleMap";
 
+
+// /issue_resolvers/:categoryId
 const ComplaintDetails = () => {
   const { issueId } = useParams();
+  let [searchParams, setSearchParams] = useSearchParams();
+  const categoryId = searchParams.get("categoryId");
+  console.log(categoryId)
+
+  const { data: categoryResolvers } = useQuery("resolvers", async () => {
+    const response = await api.get(`/api/categories/issue_resolvers/${categoryId}`);
+    return response.data;
+  });
+
+
   const { data: issueDetails } = useQuery("issueDetails", async () => {
     const response = await api.get(`/api/issues/${issueId}`);
     return response.data;
   });
 
+  console.log(categoryResolvers)
   const pinCoordinates = [5.75763, 0.22118];
+  const place = { name: 'Ashesi Nutor Hall' };
   return (
     <AppLayout
       sidebar={<AppSideBar />}
@@ -30,13 +45,16 @@ const ComplaintDetails = () => {
               content={
                 <div className="flex flex-col gap-6">
                   <IssueAssignee
-                    privacy={issueDetails?.issue.is_anonymous ? "Anonymous" : "Public"}
-                    category_name={issueDetails?.issue.category_name}
+                    privacy={issueDetails?.issue?.is_anonymous ? "Anonymous" : "Public"}
+                    // category_name={issueDetails?.issue.category.name}
                     issueId={issueId}
-                    assignees={issueDetails?.issue.assignees ?? []}
+                    assignees={issueDetails?.issue?.assignees ?? []}
+                    availableResolvers={categoryResolvers}
+
                   />
                   <p className="text-gray-600 font-medium text-xl">Location Specified</p>
-                  <MapContainer pinCoordinates={pinCoordinates} />
+                   <GoogleMap place={place} />
+                  {/* <MapContainer pinCoordinates={pinCoordinates} /> */}
                 </div>
               }
             />  

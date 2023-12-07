@@ -51,3 +51,7 @@ export const getInitials = (str) =>  {
   let initials = words.map(word => word.charAt(0).toUpperCase());
   return initials.join('');
 }
+
+export const getDateIsoString = (date) => {
+  return new Date(date).toISOString();
+}

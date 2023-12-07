@@ -9,6 +9,11 @@ import Room from "./room/Room"
 import PageNotFound from "./errors/PageNotFound"
 import ComplaintDetails from "./Complaints/ComplaintDetails"    
 import People from "./People/People"
+import Reports from "./reports/Reports"
+import CalendarPage from "./calendar/Calendar"
+import HotLineRooms from "./hotlinerooms/HotLineRooms"
+import HotLineRoom from "./room/HotlineRoom"
+
 
 export {
     HomePage,
@@ -21,6 +26,10 @@ export {
     Room,
     PageNotFound,
     ComplaintDetails,
-    People 
+    People,
+    Reports,
+    CalendarPage,
+    HotLineRooms,
+    HotLineRoom,
 }
 
