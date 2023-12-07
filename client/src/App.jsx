@@ -2,12 +2,13 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 // components
-import { HOME, LOGIN, COMPLAINT, REGISTER, COMPLAINTS,ABOUT, PAGENOTFOUND, PROFILE,SIMON, ROOMS, ROOM, ANALYTICS, ADDISSUE, CALENDAR, ASSIGNED, PEOPLE, REPORTS } from "./utils/Routes";
+import { HOME, LOGIN, COMPLAINT, REGISTER, COMPLAINTS,ABOUT, PAGENOTFOUND, PROFILE,SIMON, ROOMS, ROOM, ANALYTICS, ADDISSUE, CALENDAR, ASSIGNED, PEOPLE, REPORTS, LANDINGPAGE } from "./utils/Routes";
 import Simon from "./pages/Simon";
 import Analytics from './admin-ui/analytics/Analytics'
 
 // import { Test } from "./pages/Test";
-import { Login,CalendarPage, HotLineRooms,HotLineRoom, HomePage, Register,  Complaints, About, Reports, SubmitComplaint, Profile, Room, PageNotFound, ComplaintDetails, People } from "./pages";
+import { Login,CalendarPage, HotLineRooms,HotLineRoom, HomePage, Register,  Complaints, About, Reports, SubmitComplaint, Profile, Room, PageNotFound, ComplaintDetails, People, LandingPage } from "./pages";
+
 import AssignedIssues from "./admin-ui/AssignedIssues/AssignedIssues";
 
 function App() {
@@ -18,8 +19,10 @@ function App() {
 return (
       
         <div className='flex h-screen w-screen bg-app-background-1 overflow-hidden' >
+        <div className='flex h-full no-scrollbar' >
             <Routes>
               <Route path={HOME} element={<HomePage setSelectedLink = {setSelectedLink} />} />
+              <Route path={LANDINGPAGE} element={<LandingPage />} />
               <Route path={ABOUT} element={<About />} />
               <Route path={COMPLAINTS} element={<Complaints />} />
               <Route path={ADDISSUE} element={<SubmitComplaint isDarkMode={isDarkMode} />} />

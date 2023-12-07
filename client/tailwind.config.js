@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 import daisyui from "daisyui";
 export default {
+  
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
@@ -45,6 +46,7 @@ export default {
       mixBlendMode: {
         mixBlendMode_luminosity: "luminosity"
       }
+      
     },
   },
   plugins: [daisyui],
