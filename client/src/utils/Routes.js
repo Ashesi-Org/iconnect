@@ -14,6 +14,7 @@ export const PAGENOTFOUND ='*'
 export const ADDISSUE ='/submit-complaint'
 export const NOTIFICATIONS ='/notifications'
 export const PROFILE = '/profile'
+export const LANDINGPAGE = '/landingpage'
 
 
 
