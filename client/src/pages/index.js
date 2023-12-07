@@ -7,7 +7,8 @@ import Profile from "./Profile/Profile"
 import SubmitComplaint from "./Complaints/SubmitComplaint"
 import Room from "./room/Room"
 import PageNotFound from "./errors/PageNotFound"
-import ComplaintDetails from "./Complaints/ComplaintDetails"    
+import ComplaintDetails from "./Complaints/ComplaintDetails"  
+import LandingPage from "./LandingPage/LandingPage"  
 
 export {
     HomePage,
@@ -19,6 +20,7 @@ export {
     SubmitComplaint,
     Room,
     PageNotFound,
-    ComplaintDetails 
+    ComplaintDetails,
+    LandingPage 
 }
 
