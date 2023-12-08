@@ -3,6 +3,7 @@ name: iConnect Server V1
 on:
   pull_request:
     branches: [main]  
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -14,8 +15,9 @@ jobs:
           pm2 --version || true  # Print pm2 version or continue if not found
           npm --version || true  # Print npm version or continue if not found
 
-      - name: Add pm2 to PATH
-        run: echo "::add-path::/home/azureuser/.nvm/versions/node/v20.10.0/bin/pm2"  
+      - name: Set PATH using environment file
+        run: |
+          echo '/home/azureuser/.nvm/versions/node/v20.10.0/bin' >> $GITHUB_PATH
 
       - name: Deploy using SSH
         uses: appleboy/ssh-action@master
