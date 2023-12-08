@@ -23,4 +23,4 @@ jobs:
             export NODE_ENV=production
             npm install
             npm run tsc
-            npm run start:prod    # Start the application using pm2
+            npm run start:prod
