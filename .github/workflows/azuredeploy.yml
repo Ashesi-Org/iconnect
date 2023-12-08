@@ -19,6 +19,13 @@ jobs:
         run: |
           echo '/home/azureuser/.nvm/versions/node/v20.10.0/bin' >> $GITHUB_PATH
 
+      - name: Source nvm and Node.js
+        run: |
+          export NVM_DIR="$HOME/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+          [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+          nvm use 20.10.0
+
       - name: Deploy using SSH
         uses: appleboy/ssh-action@master
         with:
