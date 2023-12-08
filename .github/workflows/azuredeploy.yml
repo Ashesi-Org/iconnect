@@ -10,9 +10,12 @@ jobs:
     steps:
       - name: Debug Environment
         run: |
-            echo "Current PATH: $PATH"
-            pm2 --version
-            npm --version
+          echo "Current PATH: $PATH"
+          pm2 --version || true  # Print pm2 version or continue if not found
+          npm --version || true  # Print npm version or continue if not found
+
+      - name: Add pm2 to PATH
+        run: echo "::add-path::/home/azureuser/.nvm/versions/node/v20.10.0/bin/pm2"  
 
       - name: Deploy using SSH
         uses: appleboy/ssh-action@master
@@ -31,5 +34,3 @@ jobs:
             npm install
             npm run tsc
             npm run start:prod
-
-
