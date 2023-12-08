@@ -1,59 +1,45 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useState, useEffect } from "react";
-import "./App.css";
 
 // components
-import { HOME, LOGIN, REGISTER, COMPLAINTS,ABOUT, SUBMITCOMPLAINT, NOTIFICATIONS, PROFILE,SIMON, TEST, ROOMS, ROOM, ANALYTICS } from "./utils/Routes";
+import { HOME, LOGIN, COMPLAINT, REGISTER, COMPLAINTS,ABOUT, PAGENOTFOUND, PROFILE,SIMON, ROOMS, ROOM, ANALYTICS, ADDISSUE, CALENDAR, ASSIGNED, PEOPLE, REPORTS, LANDINGPAGE } from "./utils/Routes";
 import Simon from "./pages/Simon";
 import Analytics from './admin-ui/analytics/Analytics'
-import "./App.css";
+
 // import { Test } from "./pages/Test";
-import { Login, HomePage, Register, Notifications, Complaints, About, SubmitComplaint, Profile, Room, } from "./pages";
-import { QueryClient, QueryClientProvider } from "react-query";
-import HotLineRooms from "./pages/hotlinerooms/HotLineRooms";
+import { Login,CalendarPage, HotLineRooms,HotLineRoom, HomePage, Register,  Complaints, About, Reports, SubmitComplaint, Profile, Room, PageNotFound, ComplaintDetails, People, LandingPage } from "./pages";
 
-
+import AssignedIssues from "./admin-ui/AssignedIssues/AssignedIssues";
 
 function App() {
 
   const [selectedLink, setSelectedLink] = useState(null);
-  const [inbox, setInbox] = useState(false);
+ 
   const [isDarkMode, setIsDarkMode] = useState(false);
-
-  useEffect(() => {
-    const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
-
-    const handleDarkModeChange = (e) => {
-      setIsDarkMode(e.matches);
-    };
-
-    darkModeQuery.addEventListener('change', handleDarkModeChange);
-    setIsDarkMode(darkModeQuery.matches); // Set initial value
-
-    return () => {
-      darkModeQuery.removeEventListener('change', handleDarkModeChange);
-    };
-  }, []);
-
-  const [queryClient] = useState(() => new QueryClient());
-  return (
+return (
       
-        <div className='flex h-full' onClick={()=>setInbox(false)}>
-            {inbox ? <Notifications setInbox={setInbox} /> : null}
+        <div className='flex h-screen w-screen bg-app-background-1 overflow-hidden' >
+        <div className='flex h-full no-scrollbar' >
             <Routes>
               <Route path={HOME} element={<HomePage setSelectedLink = {setSelectedLink} />} />
+              <Route path={LANDINGPAGE} element={<LandingPage />} />
               <Route path={ABOUT} element={<About />} />
               <Route path={COMPLAINTS} element={<Complaints />} />
-              <Route path={SUBMITCOMPLAINT} element={<SubmitComplaint isDarkMode={isDarkMode} />} />
-              <Route path={NOTIFICATIONS} element={<Notifications />} />
+              <Route path={ADDISSUE} element={<SubmitComplaint isDarkMode={isDarkMode} />} />
               <Route path= {PROFILE} element={<Profile />} />
-              <Route path= {ROOM} element={<Room/>} />
+              
+              <Route path= {ROOM} element={<HotLineRoom/>} />
               <Route path = {ROOMS} element = {<HotLineRooms />}/>
               <Route path={LOGIN} element={<Login />} />
               <Route path={REGISTER} element={<Register />} />
-              {/* <Route path={TEST} element={<Test />} /> */}
               <Route path={SIMON} element={<Simon />} />
               <Route path={ANALYTICS} element={<Analytics />} />
+              <Route path={CALENDAR} element={<CalendarPage />} />
+              <Route path={COMPLAINT} element={<ComplaintDetails />}/>
+              <Route path={ASSIGNED} element={<AssignedIssues />} />  
+              <Route path={PEOPLE} element={<People />} />
+              <Route path={REPORTS} element={<Reports />} />
+              <Route path={PAGENOTFOUND} element={<PageNotFound />} />
             </Routes>
       </div>
   );

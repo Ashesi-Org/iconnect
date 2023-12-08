@@ -29,7 +29,7 @@ const RoomArea = ({}) => {
   const { id: roomId } = useParams();
   const { user } = useContext(userContext);
   const { conn } = useContext(WebSocketContext);
-
+console.log(roomId)
   const {
     chatMessages,
     room,

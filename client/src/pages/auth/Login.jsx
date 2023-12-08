@@ -4,6 +4,7 @@ import Input from "../../components/ui/Input";
 import { Logo } from "../../components/ui/Logo";
 import ButtonM from "../../components/ui/ButtonM";
 import google from "../../assets/google.png"
+import office from "../../assets/office.jpeg"
 import useScreenType from "../../hooks/useScreenType";
 import { WebSocketContext } from "../../contexts/WebsocketContext";
 
@@ -50,11 +51,40 @@ const Login = () => {
     };
 
 
+
+
+    const officeLogin = () => {
+        myDevice === "isDesktop"
+            ? window.open(
+                  `${
+                      "http://localhost:8000/auth/microsoft"
+                      // Replace with appropriate production or development URL
+                      // process.env.NODE_ENV === "production"
+                      //     ? `${process.env.REACT_APP_PROD_API}/auth/microsoft`
+                      //     : `${process.env.REACT_APP_DEV_API}/auth/microsoft`
+                  }`,
+                  "",
+                  `toolbar=no, location=no, directories=no, status=no, menubar=no, 
+                  scrollbars=no, resizable=no, copyhistory=no, width=${width}, 
+                  height=${height}, top=${top}, left=${left}`
+              )
+            : window.location.replace(
+                  `${
+                      "http://localhost:8000/auth/microsoft"
+                      // Replace with appropriate production or development URL
+                      // process.env.NODE_ENV === "production"
+                      //     ? `${process.env.REACT_APP_PROD_API}/auth/microsoft`
+                      //     : `${process.env.REACT_APP_DEV_API}/auth/microsoft`
+                  }`
+              );
+    };
+
+
+
     const { conn } = useContext(WebSocketContext);
     return (
-        <div className="bg-app-background-1 w-screen h-screen flex justify-center place-content-center items-center">
             
-            <AuthFieldsContainer>
+            <AuthFieldsContainer classNames="w-[600px]">
               
                 <div className="flex justify-center items-center flex-col-reverse gap-0 pb-5">
                     <h2 className="text-app-white text-2xl font-semibold">Log in to Ashesi iConnect</h2>
@@ -82,27 +112,26 @@ const Login = () => {
                 </div>
         
                 <div className="p-5 pt-8 flex flex-col gap-2">
-                    <ButtonM type="primary" className={`text-lg text-white bg-app-brown  hover:bg-app-hover-green flex justify-center`}>Login</ButtonM>
+                    <ButtonM type="primary" className={`text-lg text-white bg-red-900  hover:bg-red-700 flex justify-center`}>Login</ButtonM>
                 </div>
                 <div className="text-lg text-center text-app-white">
                     Continue with your socials
                 </div>
-                <div className="p-5 flex gap-10 justify-between items-center">
+                <div className="pt-4 pb-4 flex gap-1 justify-between items-center">
 
-                    <ButtonM onClick={() => {googleLogin();}} type="primary"  className={`p-5 bg-input-bg-color`} icon={<img src={google} height={20} width={20} alt="Google Icon" />}>
+                    <ButtonM onClick={() => {googleLogin();}} type="primary"  className={`p-5 bg-input-bg-color text-black`} icon={<img src={google} height={20} width={20} alt="Google Icon" />}>
                         Continue with Google
                     </ButtonM>
                         <span>OR</span>
-                    <ButtonM type="primary" className={`p-5 bg-input-bg-color`} icon={<img src={google} height={20} width={20} alt="Google Icon" />}>
-                        Continue with facebook 
+                    <ButtonM  onClick={() => {officeLogin();}} type="primary" className={`p-5 bg-input-bg-color`} icon={<img src={office} height={20} width={20} alt="Google Icon" />}>
+                        Continue with office 
                     </ButtonM>
                 </div>
                   <div className="text-sm text-center pb-2 text-gray-400">
-                    Don't have an account yet? <span className=" cursor-pointer  text-app-green"> Register</span>
+                    Don't have an account yet? <span className=" cursor-pointer  text-red-900"> Register</span>
                 </div>
             </AuthFieldsContainer>
            
-        </div>
     );
 };
 

@@ -16,8 +16,8 @@ export async function createTransport(
   console.log("transport options", transportOptions);
   const transport =
     direction === "recv"
-      ?  device.createRecvTransport(transportOptions)
-      :  device.createSendTransport(transportOptions);
+      ? await device?.createRecvTransport(transportOptions)
+      :  await device?.createSendTransport(transportOptions);
 
   transport.on("connect", ({ dtlsParameters }, callback, errback) => {
     conn.emit(
@@ -34,26 +34,12 @@ export async function createTransport(
   });
 
   if (direction === "send") {
-    // sending transports will emit a produce event when a new track
-    // needs to be set up to start sending. the producer's appData is
-    // passed as a parameter
+   
     transport.on(
       "produce",
       ({ kind, rtpParameters, appData }, callback, errback) => {
         console.log("transport produce event", appData.mediaTag);
-        // we may want to start out paused (if the checkboxes in the ui
-        // aren't checked, for each media type. not very clean code, here
-        // but, you know, this isn't a real application.)
-        // let paused = false;
-        // if (appData.mediaTag === "cam-video") {
-        //   paused = getCamPausedState();
-        // } else if (appData.mediaTag === "cam-audio") {
-        //   paused = getMicPausedState();
-        // }
-        // tell the server what it needs to know from us in order to set
-        // up a server-side producer object, and get back a
-        // producer.id. call callback() on success or errback() on
-        // failure.
+      
         conn.once("@send-track-done", (d) => {
           console.log("@send-track-done");
           callback({ id: d.id });
@@ -77,9 +63,7 @@ export async function createTransport(
     );
   }
 
-  // for this simple demo, any time a transport transitions to closed,
-  // failed, or disconnected, leave the room and reset
-  //
+
   transport.on("connectionstatechange", state => {
     useRTCStore.getState().set({ rtcStatus: state });
     console.log(

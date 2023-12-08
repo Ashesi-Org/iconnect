@@ -12,3 +12,46 @@ export const formatTimeAgo = (timestamp) => {
   
   return `${seconds} secs ago`;
 }
+
+
+export const getMessagesEn = () => {
+    return {
+        allDay: 'All Day',
+        previous: '<',
+        next: '>',
+        today: 'Today',
+        month: 'Month',
+        week: 'Week',
+        day: 'Day',
+        agenda: 'Agenda',
+        date: 'Date',
+        time: 'Time',
+        event: 'Event',
+        noEventsInRange: 'No events in this range',
+        showMore: total => `+ Show more (${total})`
+    };
+};
+
+
+export const capitalizeInitials = (name) => {
+  const words = name.split(' ');
+  const capitalizedWords = words.map(word => {
+    if (word.length > 0) {
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    }
+    return '';
+  });
+  return capitalizedWords.join(' ');
+};
+
+
+
+export const getInitials = (str) =>  {
+  let words = str.split(' ').slice(1);
+  let initials = words.map(word => word.charAt(0).toUpperCase());
+  return initials.join('');
+}
+
+export const getDateIsoString = (date) => {
+  return new Date(date).toISOString();
+}

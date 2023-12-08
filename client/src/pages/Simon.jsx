@@ -1,42 +1,95 @@
-import React from 'react'
-import { Home, Layers, HelpingHand, Settings } from 'lucide-react';
-import { AppLayout } from '../components/ui/AppLayout';
-import { SideNav } from '../components/ui/SideNav';
+import { BlobServiceClient, ContainerClient } from '@azure/storage-blob';
+import React , {useState}from "react";
+import { AppLayout } from "../components/ui/AppLayout";
+import AppSideBar from "../components/common/AppSideBar";
+import MarkdownEditor from "../admin-ui/report/MarkDownEditor";
+import { ContentScrollable } from "../components/ui/ContentScrollable";
+import ReportComponent from "../admin-ui/report/reportComponent";
+import { useQuery } from "react-query";
+import { api } from "../api";
 
 
 const Simon = () => {
-    
+
+  const {data:reportData} = useQuery('reportsData', 
+   async () => {
+    const res = await api.get('/api/reports/generate-report');
+    return res.data.data;
+  },
+
+  
+  );
+  
+console.log(reportData);
   return (
+    <AppLayout column={
+      <ContentScrollable content={
+    <><div className="flex flex-col">
+          
+          <div>
+            {/* <h1 className="text-3xl font-bold mb-8">General Reports</h1> */}
+            {reportData && <ReportComponent data={reportData} />}
+          </div>
+        </div>
+        <h2 className="text-slate-500 pl-4">Add a customized and formatted additional insights to the report</h2>
+        <MarkdownEditor />
+        </>}
+  
+    />}
+    sidebar={<><AppSideBar /></>}
+    />
+  );
+};
 
-    <AppLayout sidebar={<SideNav tabIcons={[
-              <Home
-                className="text-app-white group-active:scale-90 transition-all duration-50 ease-in"
-                size={20}
-              />,
-              <Layers
-                className="text-app-white group-active:scale-90 transition-all duration-50 ease-in"
-                size={20}
-              />,
-              <HelpingHand
-                className="text-app-white group-active:scale-90 transition-all duration-50 ease-in"
-                size={20}
-              />,
-              <Settings
-                className="text-app-white group-active:scale-90 transition-all duration-50 ease-in"
-                size={20}
-              />,
-            ]}/>} column2={<PageContent />}>
-    </AppLayout>   
-  )
-}
+export default Simon;
 
-export default Simon
 
-const PageContent = () =>{
-    return (
-      <div >
 
-        
-      </div>
-    );
-}
+
+
+const AzureBlobUploader = () => {
+  const [file, setFile] = useState(null);
+  const [fileUrl, setFileUrl] = useState('');
+
+  // Azure Storage Connection Config
+  const connectionString = 'qQAgVY/t+RziVUjEDZXxjXCqfGXzjMVhtulssEP/GtTuHQi+8DSSgHSePZNXA7nRnHxOB3cPSvs5+AStN3nzsA==';
+  const containerName = 'iconnect';
+
+  const blobServiceClient = new BlobServiceClient(connectionString);
+  const containerClient = blobServiceClient.getContainerClient(containerName);
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const uploadFile = async () => {
+    if (!file) return;
+
+    const blobName = `${new Date().getTime()}-${file.name}`;
+    const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+
+    try {
+      await blockBlobClient.uploadBrowserData(file);
+      const url = blockBlobClient.url;
+      setFileUrl(url);
+      console.log('File uploaded successfully. URL:', url);
+    } catch (error) {
+      console.error('Error uploading file:', error);
+    }
+  };
+
+  return (
+    <div>
+      <input type="file" onChange={handleFileChange} />
+      <button onClick={uploadFile}>Upload File</button>
+      {fileUrl && (
+        <div>
+          <p>File URL: <a href={fileUrl} target="_blank" rel="noopener noreferrer">{fileUrl}</a></p>
+          {/* You can use this URL to download or display the uploaded file */}
+        </div>
+      )}
+    </div>
+  );
+};
+
+// export default AzureBlobUploader;

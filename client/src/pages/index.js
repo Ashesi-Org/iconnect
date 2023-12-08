@@ -4,9 +4,15 @@ import Complaints from "./Complaints/Complaints"
 import Login from "./auth/Login"
 import Register from "./auth/Register"
 import Profile from "./Profile/Profile"
-import Notifications from "./Notifications/Notifications"
-import SubmitComplaint from "./SubmitComplaint/SubmitComplaint"
-import Room from "./room/Room"
+import SubmitComplaint from "./Complaints/SubmitComplaint"
+import PageNotFound from "./errors/PageNotFound"
+import People from "./People/People"
+import Reports from "./reports/Reports"
+import CalendarPage from "./calendar/Calendar"
+import HotLineRooms from "./hotlinerooms/HotLineRooms"
+import HotLineRoom from "./room/HotlineRoom"
+import ComplaintDetails from "./Complaints/ComplaintDetails"  
+import LandingPage from "./LandingPage/LandingPage"  
 
 export {
     HomePage,
@@ -15,8 +21,14 @@ export {
     Profile,
     Register,
     Complaints,
-    Notifications,
     SubmitComplaint,
-    Room, 
+    PageNotFound,
+    ComplaintDetails,
+    People,
+    Reports,
+    CalendarPage,
+    HotLineRooms,
+    HotLineRoom,
+    LandingPage 
 }
 

@@ -23,7 +23,9 @@ export const SideNav = ({ profile, tabIcons, routes }) => {
             index={index}
             isActive={activeTab == index}
             setActiveTab={setActiveTab}
-            route={routes[index]}
+            route={routes[index]?.path}
+            name={routes[index]?.name}
+            
           />
         ))}
       </div>
@@ -56,7 +58,7 @@ export const Profile = ({ profile }) => {
 };
 
 
-export const TabButton = ({ icon, index, isActive, setActiveTab, route }) => {
+export const TabButton = ({ icon, index, isActive, setActiveTab, route, name}) => {
   const navigate = useNavigate();
 
   // Function to handle navigation
@@ -91,7 +93,7 @@ export const TabButton = ({ icon, index, isActive, setActiveTab, route }) => {
           </div>
         </TooltipTrigger>
         <TooltipContent>
-          <p>{route}</p>
+          <p>{name}</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

@@ -9,12 +9,12 @@ export const AppLayout = ({ sidebar, column }) => {
 
   return (
     <>
-      <main className="w-screen h-screen bg-app_bg_deepest bg-app-background-1 fixed text-app-white font-body  space-y-8">
+      <main className="w-screen h-screen  bg-app-background-1 fixed text-app-white font-body  space-y-8">
         <div className="w-screen overflow-x-hidden flex items-start">
           {sidebar}
-          <div className="grid grid-cols-10 w-full h-full overflow-hidden">
+          <div className="grid grid-col-2 w-full h-full overflow-hidden">
             <Header selectedLink={selectedLink} setSelectedLink={setSelectedLink} inbox={inbox} setInbox={setInbox} />
-            <div className="col-span-8 py-20">{column}</div>
+            <div className="col-span-8 py-20 px-20">{column}</div>
           </div>
         </div>
       </main>
