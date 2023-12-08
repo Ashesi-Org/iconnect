@@ -3,11 +3,22 @@ name: iConnect Server V1
 on:
   pull_request:
     branches: [main]  
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     
     steps:
+      - name: Debug Environment
+        run: |
+          echo "Current PATH: $PATH"
+          pm2 --version || true  # Print pm2 version or continue if not found
+          npm --version || true  # Print npm version or continue if not found
+
+      - name: Set PATH using environment file
+        run: |
+          echo '/home/azureuser/.nvm/versions/node/v20.10.0/bin' >> $GITHUB_PATH
+
       - name: Deploy using SSH
         uses: appleboy/ssh-action@master
         with:
@@ -16,11 +27,12 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            /home/azureuser/iconnect
+            cd /home/azureuser/iconnect
             git pull origin main  
             git status
             pm2 kill
             export NODE_ENV=production
+            cd server
             npm install
             npm run tsc
             npm run start:prod
