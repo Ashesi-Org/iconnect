@@ -104,3 +104,109 @@ export const getUserIssuesQueryUser = ` SELECT
         categories.name
     ORDER BY
         issues.created_at DESC`;
+
+
+export const getIssuesByCategoryQuery = `SELECT
+    issues.issue_id AS issueid,
+    issues.category_id,
+    issues.description,
+    issues.title,
+    issues.user_id AS userid,
+    issues.is_anonymous,
+    categories.name AS category_name,
+    issues.created_at AS issue_created_at,
+    issues.updated_at AS issue_updated_at,
+    issues.status,
+    issues.priority,
+    CASE
+        WHEN COUNT(ai.assigned_resolver_id) > 0 THEN 'Assigned'
+        ELSE 'Not Assigned'
+    END AS assignment_status,
+    json_agg(json_build_object(
+        'comment_created_at', c.created_at,
+        'comment_text', c.comment_text,
+        'comment_user_id', c.user_id,
+        'comment_issue_id', c.issue_id,
+        'comment_id', c.comment_id
+    )) AS comments
+FROM
+    issues
+LEFT JOIN
+    categories ON issues.category_id = categories.category_id
+LEFT JOIN
+    comments AS c ON issues.issue_id = c.issue_id
+LEFT JOIN
+    assigned_issues AS ai ON issues.issue_id = ai.issue_id
+WHERE
+    issues.category_id = (SELECT category_id FROM issue_resolvers WHERE user_id = $1)
+GROUP BY
+    issues.issue_id,
+    categories.name
+ORDER BY
+    issues.created_at DESC;
+`
+
+
+
+export const getAllIssuesQuery = `SELECT
+    issues.issue_id AS issueid,
+    issues.category_id,
+    issues.description,
+    issues.title,
+    issues.user_id AS userid,
+    issues.is_anonymous,
+    categories.name AS category_name,
+    issues.created_at AS issue_created_at,
+    issues.updated_at AS issue_updated_at,
+    issues.status,
+    issues.priority,
+    CASE
+        WHEN COUNT(ai.assigned_resolver_id) > 0 THEN 'Assigned'
+        ELSE 'Not Assigned'
+    END AS assignment_status,
+    json_agg(json_build_object(
+        'comment_created_at', c.created_at,
+        'comment_text', c.comment_text,
+        'comment_user_id', c.user_id,
+        'comment_issue_id', c.issue_id,
+        'comment_id', c.comment_id
+    )) AS comments
+FROM
+    issues
+LEFT JOIN
+    categories ON issues.category_id = categories.category_id
+LEFT JOIN
+    comments AS c ON issues.issue_id = c.issue_id
+LEFT JOIN
+    assigned_issues AS ai ON issues.issue_id = ai.issue_id
+GROUP BY
+    issues.issue_id,
+    categories.name
+ORDER BY
+    issues.created_at DESC;
+`
+
+
+
+export const getRessolverAssignmentsQuery = 
+    `SELECT 
+    i.issue_id,
+    i.title,
+    i.description AS issue_description,
+    i.status AS issue_status,
+    i.priority AS issue_priority,
+    i.created_at AS issue_created_at,
+    ai.assignment_id,
+    ai.due_at AS end,
+    ai.created_at AS start
+FROM 
+    issues i
+INNER JOIN 
+    assigned_issues ai ON i.issue_id = ai.issue_id
+INNER JOIN issue_resolvers ir ON i.user_id = ir.user_id
+WHERE 
+    ir.user_id = $1
+
+`
+
+

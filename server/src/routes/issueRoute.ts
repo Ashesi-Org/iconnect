@@ -18,7 +18,9 @@ const parseAttachmentMiddleware = (req: Request, res: Response, next: NextFuncti
 issueRouter.get('/', issuesController.getAssignedOrNotAssignedIssues);
 issueRouter.get('/:issueId', issuesController.getIssueById);
 issueRouter.get('/user/:userId', issuesController.getIssuesByUser);
-issueRouter.get('/department/:departmentId', issuesController.getIssuesByDepartment);
+issueRouter.get('/department/:userId', issuesController.getIssuesByDepartment);
+issueRouter.get('/events/:resolverId', issuesController.getRessolverAssignments);
+
 issueRouter.delete('/:issueId', issuesController.deleteIssue);
 issueRouter.post('/create', parseAttachmentMiddleware, issuesController.createIssue);
 issueRouter.post('/assign', issuesController.assignIssueToResolver);

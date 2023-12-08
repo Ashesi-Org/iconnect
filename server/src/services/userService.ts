@@ -1,5 +1,7 @@
 import { query } from '../utils/db';
 import { User } from '../types';
+import { UserDTO } from '../types/User';
+import { logger } from '../config/logger';
 
 const getUserById = async (userId: number): Promise<User | null> => {
   try {
@@ -13,6 +15,40 @@ const getUserById = async (userId: number): Promise<User | null> => {
     throw new Error('Failed to retrieve user');
   }
 };
+
+
+const getAllUsers = async (): Promise<User[]> => {
+  try {
+    const result = await query('SELECT * FROM user_data');
+    return result.rows;
+  } catch (error) {
+    console.error('Error retrieving users:', error);
+    throw new Error('Failed to retrieve users');
+  }
+};
+
+
+const changeUserRole = async (userId: number, newRole: string, categoryId: number): Promise<User | null> => {
+  try {
+    // Check if the user exists
+    logger.info(`Changing role of user ${userId} to ${newRole}`); 
+    const user = await getUserById(userId);
+    if (!user) {
+      return null; 
+    }
+    // Update the user's role
+    const updateResult = await query('UPDATE user_data SET role = $1 WHERE user_id = $2 RETURNING *', [
+      newRole,
+      userId,
+    ]);
+    categoryId !== 0 && await makeUserIssueResolver(userId, categoryId);
+    return updateResult.rows[0];
+  } catch (error) {
+    console.error('Error changing user role:', error);
+    throw new Error('Failed to change user role');
+  }
+};
+
 
 const createUser = async (userData: User): Promise<User> => {
   try {
@@ -50,4 +86,7 @@ const makeUserIssueResolver = async (userId: number, categoryId: number) => {
 
   }
 };
-export { getUserById, createUser, makeUserIssueResolver };
+
+
+
+export { getAllUsers, getUserById, changeUserRole, createUser, makeUserIssueResolver };

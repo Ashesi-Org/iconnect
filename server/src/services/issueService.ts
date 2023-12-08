@@ -1,7 +1,7 @@
 import { logger } from "../config/logger";
 import { Issue } from "../types";
 import { processIssueDetails, query } from "../utils/db";
-import { getIssueQuery, getUserIssuesQueryUser } from "./queries";
+import { getAllIssuesQuery, getIssueQuery, getIssuesByCategoryQuery, getRessolverAssignmentsQuery, getUserIssuesQueryUser } from "./issuequeries";
 
 
 
@@ -32,23 +32,12 @@ const getIssuesByUserWithDetails = async (userId: number): Promise<Issue[]> => {
 };
 
 
-const getIssuesByDepartmentWithDetails = async (departmentId: number): Promise<Issue[]> => {
-  const queryText = `
-    SELECT issues.*, categories.name AS category_name, comments.*, attachments.*,
-      CASE
-        WHEN issues.resolver_user_id IS NOT NULL THEN 'Assigned'
-        ELSE 'Not Assigned'
-      END AS assignment_status
-    FROM issues
-    LEFT JOIN categories ON issues.category_id = categories.category_id
-    LEFT JOIN comments ON issues.issue_id = comments.issue_id
-    LEFT JOIN attachments ON issues.issue_id = attachments.issue_id
-    WHERE issues.category_id = $1`;
+const getIssuesByDepartmentWithDetails = async (userId:number): Promise<Issue[]> => {
 
-  const queryParams = [departmentId];
+  const queryParams = [userId];
 
   try {
-    const result = await query(queryText, queryParams);
+    const result = await query(getIssuesByCategoryQuery, queryParams);
     return processIssueDetails(result.rows);
   } catch (error) {
     console.error('Error retrieving issues by department with details:', error);
@@ -82,7 +71,31 @@ const getAssignedOrNotAssignedIssues = async (assigned: Boolean) => {
   }
 };
 
+const getRessolverAssignments =  async (resolverId:Number) =>{
+  const queryParams = [resolverId]
+  try {
+    const result = await query(getRessolverAssignmentsQuery, queryParams);
+    const issues = result.rows;
+    return issues
+  } catch (error) {
+    console.log(error)
+    throw new Error('Failed to retrieve assigned issues to resolver')
+    
+  }
 
+}
+
+const getAllIssues = async () => {
+  try {
+    const result = await query(getAllIssuesQuery);
+    const issues = processIssueDetails(result.rows);
+    return issues;
+  } catch (error) {
+    console.error('Error retrieving all issues:', error);
+    throw new Error('Failed to retrieve all issues');
+  }
+  
+}
 
 const assignIssueToResolver = async (issueId: number, resolverId: number) => {
   const insertQuery = `
@@ -242,7 +255,6 @@ const updateIssuePriority = async (issueId: number, newPriority: string): Promis
 };
 
 
-
 export {
   updateIssue,
   deleteIssue,
@@ -255,4 +267,7 @@ export {
   createIssueWithAttachment,
   createIssue,
   getIssueById,
+  getAllIssues,
+  getRessolverAssignments
+  
 };

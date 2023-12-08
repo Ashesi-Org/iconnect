@@ -2,6 +2,7 @@ import "dotenv/config";
 import { NextFunction, Request, Response, Router } from "express";
 import passport from "passport";
 import "../auth/googleAuth";
+import "../auth/microsoftAuth";
 import createHttpError from "http-errors";
 
 export const router = Router();
@@ -18,6 +19,21 @@ router.get(
     failureRedirect: "/failure",
   })
 );
+
+
+
+router.get("/microsoft", passport.authenticate("microsoft"));
+router.get(
+  "/microsoft/callback",
+  passport.authenticate("microsoft", {
+    successRedirect:
+      process.env.NODE_ENV == "production"
+        ? process.env.CLIENT_URI_CALLBACK_PROD
+        : process.env.CLIENT_URI_CALLBACK,
+    failureRedirect: "/failure",
+  })
+);
+
 
 router.post("/logout", (req: Request, res: Response, next: NextFunction) => {
   try {

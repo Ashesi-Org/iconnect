@@ -4,7 +4,7 @@ import { query } from '../utils/db';
 
 
 
-const notifyUser = async (userId: number,notification_type: string, message: string, issueId: number) => {
+const notifyUser = async (userId: number,notification_type: string, message: string, issueId?: number) => {
   try {
     // Save notification details in the database
    

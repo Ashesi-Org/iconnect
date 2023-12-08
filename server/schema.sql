@@ -34,13 +34,27 @@ CREATE TABLE user_data (
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
+ALTER TABLE user_data
+DROP CONSTRAINT IF EXISTS user_data_role_check;
+
+ALTER TABLE user_data
+ADD CONSTRAINT user_data_role_check CHECK (
+    role IN ('student', 'administrator', 'developer', 'resolver')
+);
+
+
 -- Creating auth_provider Table
 CREATE TABLE auth_provider (
     id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES user_data(user_id) ON DELETE CASCADE,
     google_id VARCHAR(255) UNIQUE NOT NULL
 );
+ALTER TABLE auth_provider
+ALTER COLUMN google_id DROP NOT NULL;
+ALTER TABLE auth_provider  ADD COLUMN microsoft_id VARCHAR(255) UNIQUE;
 
+DELETE FROM user_data where user_id = 40
+select * from user_data
 -- Creating RoomInfo Table with a Singular Reference to Categories Table by category_id
 CREATE TABLE room_info (
     room_id SERIAL PRIMARY KEY,
@@ -139,13 +153,7 @@ CREATE TABLE notifications (
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
-
-ALTER TABLE notifications
-DROP CONSTRAINT notifications_notifiction_type_check,
-ADD CONSTRAINT notifications_notifiction_type_check CHECK (notifiction_type IN ('status', 'comment', 'attachment', 'ban', 'admin', 'review', 'reminder', 'update', 'assigned'));
-
-
-select * from issues
+select * from user_data
 
 -- Indexing for Performance Optimization
 CREATE INDEX idx_user_email ON user_data(email);
@@ -217,7 +225,7 @@ VACUUM ANALYZE;
 
 
 
-
+select * from issues
 
 INSERT INTO comments (issue_id, user_id, comment_text, created_at)
 VALUES

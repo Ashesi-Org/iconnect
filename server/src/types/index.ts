@@ -1,6 +1,7 @@
 type User = {
   user_id: string;
   google_id?: string,
+  microsft_id?:string,
   avatarUrl: string;
   role: 'student' | 'administrator' | 'developer';
   email: string;

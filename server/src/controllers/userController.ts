@@ -1,6 +1,9 @@
 import { Request, Response } from 'express';
 import * as userService from '../services/userService';
 import { User } from '../types';
+import { UserDTO } from '../types/User';
+import { notifyUser } from '../services/notificationService';
+import { logger } from '../config/logger';
 
 
 const getUserById = async (req: Request, res: Response) => {
@@ -14,6 +17,17 @@ const getUserById = async (req: Request, res: Response) => {
   } catch (error:any) {
     console.error('Error in user controller:', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+
+const getAllUsers = async (req: Request, res: Response) => {
+  try {
+    const allUsers = await userService.getAllUsers();
+    res.status(200).json(allUsers);
+  } catch (error:any) {
+    console.error('Error in getting all users:', error.message);
+    res.status(500).json({ error: 'Failed to retrieve all users' });
   }
 };
 
@@ -32,11 +46,34 @@ const createUser = async (req: Request, res: Response) => {
 };
 
 
+const changeUserRoleController = async (req: Request, res: Response) => {
+  const userId = parseInt(req.params.userId, 10);
+  const categoryId = parseInt(req.query.categoryId as string, 10);
+
+  const { newRole } = req.body; 
+  try {
+    const updatedUser = await userService.changeUserRole(userId, newRole, categoryId);
+    // Send a notification to the user
+    logger.info(`User ${userId} changed their role to ${newRole}`);
+    notifyUser(
+      userId, "status", `Your role has been changed to ${newRole}` 
+    )
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    return res.status(200).json({ status: 'success', message: 'User role updated successfully', user: updatedUser });
+  } catch (error) {
+    console.error('Error changing user role:', error);
+    return res.status(500).json({ status: 'error', message: 'Failed to change user role' });
+  }
+};
+
+
 const makeUserIssueResolverController = async (req: Request, res: Response) => {
   try {
     const { userId, categoryId } = req.body; 
 
-    // First, check if the user exists
+    //if the user exists
     const user = await userService.getUserById(Number(userId));
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
@@ -51,4 +88,4 @@ const makeUserIssueResolverController = async (req: Request, res: Response) => {
   }
 };
 
-export { getUserById, createUser, makeUserIssueResolverController };
+export { getAllUsers, getUserById, createUser,changeUserRoleController, makeUserIssueResolverController };

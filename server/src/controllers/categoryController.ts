@@ -4,7 +4,7 @@ import { Category } from '../types';
 
 const getIssueResolversForCategory = async (req: Request, res: Response) => {
   try {
-    const { categoryId } = req.params; // Assuming 'categoryId' is part of the route parameters
+    const { categoryId } = req.params;
 
     const issueResolvers = await categoryService.getIssueResolversForCategory(Number(categoryId));
 
