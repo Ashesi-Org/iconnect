@@ -1,4 +1,4 @@
-name: iConnect Server
+name: iConnect Server V1
 
 on:
   pull_request:
@@ -13,7 +13,7 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.PRIVATE_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
             /home/azureuser/iconnect
@@ -23,4 +23,4 @@ jobs:
             export NODE_ENV=production
             npm install
             npm run tsc
-            npm run start:prod    # Start the application using pm2
+            npm run start:prod

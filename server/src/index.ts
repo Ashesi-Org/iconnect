@@ -66,7 +66,6 @@ app.use('/api/categories', categoryRouter);
 app.use('/api/notification', notificationRoutes);
 app.use('/api/reports', reportRoutes)
 
-
 app.use(notFoundHandler);
 app.use(errorHandler);
 
