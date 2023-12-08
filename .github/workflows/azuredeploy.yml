@@ -19,13 +19,6 @@ jobs:
         run: |
           echo '/home/azureuser/.nvm/versions/node/v20.10.0/bin' >> $GITHUB_PATH
 
-      - name: Source nvm and Node.js
-        run: |
-          export NVM_DIR="$HOME/.nvm"
-          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-          [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-          nvm use 0.39.1
-
       - name: Deploy using SSH
         uses: appleboy/ssh-action@master
         with:
@@ -35,7 +28,9 @@ jobs:
           port: 22
           script: |
             cd /home/azureuser/iconnect
-            git pull origin main  
+            git pull origin main
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh     
             git status
             pm2 kill
             export NODE_ENV=production
