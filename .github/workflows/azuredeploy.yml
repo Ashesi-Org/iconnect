@@ -8,6 +8,12 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+      - name: Debug Environment
+        run: |
+            echo "Current PATH: $PATH"
+            pm2 --version
+            npm --version
+
       - name: Deploy using SSH
         uses: appleboy/ssh-action@master
         with:
@@ -21,6 +27,9 @@ jobs:
             git status
             pm2 kill
             export NODE_ENV=production
+            cd server
             npm install
             npm run tsc
             npm run start:prod
+
+
