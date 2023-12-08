@@ -19,7 +19,6 @@ function App() {
 return (
       
         <div className='flex h-screen w-screen bg-app-background-1 overflow-hidden' >
-        <div className='flex h-full no-scrollbar' >
             <Routes>
               <Route path={HOME} element={<HomePage setSelectedLink = {setSelectedLink} />} />
               <Route path={LANDINGPAGE} element={<LandingPage />} />
