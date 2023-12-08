@@ -1,4 +1,4 @@
-name: iConnect Server
+name: iConnect Server V1
 
 on:
   pull_request:
