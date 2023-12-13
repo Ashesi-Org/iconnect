@@ -1,0 +1,169 @@
+@import url("https://fonts.googleapis.com/css?family=Google+Sans:200,300,400,500,600,700,900");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.row{
+    position: relative;
+    max-width: 100%;
+    height: 150vh;
+    padding: 20px;
+    background-color: #023047;
+    z-index: -1;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.module{
+    width: 400px;
+    height: 300px;
+    background-color: #fff;
+    margin: 15px;
+    border-radius: 8px;
+}
+
+
+/* Add this class to your styles.css */
+.blur-edges {
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+  mask-image: radial-gradient(white, black);
+}
+
+
+
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.selected {
+    color: #800000; 
+}
+
+.navlinks ul li {
+    margin-left: 4rem;
+}
+
+.navlinks ul li:last-child {
+    margin-left: 10rem;
+}
+
+.navlinks {
+    width: 1132px;
+}
+
+
+
+.vr {
+    border-right: 1px solid #D9D9D9;
+}
+
+.hr {
+    border-bottom: 1px solid #D9D9D9;
+}
+
+.notification__header {
+    border-bottom: 1px solid #D9D9D9;
+}
+
+
+body{
+  background-color: #D9D9D9 !important;
+  font-family: "Poppins",sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+
+.skeleton-loader {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; 
+
+ 
+}
+
+.skeleton-item {
+  height: 20px; 
+  border-radius: 4px;
+  background-color: #f0f0f0; 
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+
+.header-animation {
+  width: 70%;
+  animation: loadingAnimation 1.5s ease-in-out infinite;
+}
+
+.content-animation {
+  width: 100%;
+  animation: loadingAnimation 1.5s ease-in-out infinite;
+}
+
+@keyframes loadingAnimation {
+  0% { opacity: 0.6; }
+  50% { opacity: 0.8; }
+  100% { opacity: 0.6; }
+}
+
+
+@media (prefers-color-scheme: light) {
+  :root {
+    /* color: rgb(1, 2, 4); */
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+
+
+@media print {
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333; 
+    margin: 20px; 
+  }
+
+  .print-content {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ccc; 
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); 
+  }
+
+  h1, h2, h3 {
+    font-weight: bold;
+    color: #000;
+  }
+
+  p {
+    margin: 0 0 10px; 
+  }
+
+  .flex {
+    display: none;
+  }
+}
