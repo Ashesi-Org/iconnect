@@ -1,0 +1,182 @@
+[
+  {
+    "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+    "value": "95a11e52-b59f-4cc6-b072-6e90ac49c872",
+    "slotSetting": false
+  },
+  {
+    "name": "APPLICATIONINSIGHTSAGENT_EXTENSION_ENABLED",
+    "value": "true",
+    "slotSetting": false
+  },
+  {
+    "name": "GOOGLE_PROVIDER_AUTHENTICATION_SECRET",
+    "value": "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",
+    "slotSetting": true
+  },
+  {
+    "name": "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET",
+    "value": "Lv.8Q~nLXSji2eS~kZs~XD4ZQlEX7WAwXENgpdtG",
+    "slotSetting": true
+  },
+  {
+    "name": "SCM_DO_BUILD_DURING_DEPLOYMENT",
+    "value": "true",
+    "slotSetting": false
+  },
+  {
+    "name": "WEBSITE_HTTPLOGGING_RETENTION_DAYS",
+    "value": "7",
+    "slotSetting": false
+  },
+  {
+    "name": "REDIS_URI",
+    "value": "redis-19725.c321.us-east-1-2.ec2.cloud.redislabs.com:19725",
+    "slotSetting": false
+  },
+  {
+    "name": "TUNNEL_URI",
+    "value": "https://drop-next.vercel.app",
+    "slotSetting": false
+  },
+  {
+    "name": "CLIENT_URI",
+    "value": "https://www.ashesiiconnect.me",
+    "slotSetting": false
+  },
+  {
+    "name": "CLIENT_URI_CALLBACK",
+    "value": "http://localhost:5173/complaints",
+    "slotSetting": false
+  },
+   {
+    "name": "CLIENT_URI_PROD",
+    "value": "https://www.ashesiiconnect.me",
+    "slotSetting": false
+  },
+  {
+    "name": "CLIENT_URI_CALLBACK_PROD",
+    "value": "https://www.ashesiiconnect.me/complaints",
+    "slotSetting": false
+  },
+  {
+    "name": "RABBITMQ_URL",
+    "value": "amqps://phrwfxre:JbjGXInw5drgBZX91VKpf1hJnXfC4pR6@kangaroo.rmq.cloudamqp.com/phrwfxre",
+    "slotSetting": false
+  },
+  {
+    "name": "QUEUE_PORT",
+    "value": "19725",
+    "slotSetting": false
+  },
+  {
+    "name": "WEBRTC_LISTEN_IP",
+    "value": "172.187.136.23",
+    "slotSetting": false
+  },
+  {
+    "name": "MEDIASOUP_LISTEN_IP",
+    "value": "10.0.0.4",
+    "slotSetting": false
+  },
+  {
+    "name": "NODE_ENV",
+    "value": "production",
+    "slotSetting": false
+  },
+  {
+    "name": "QUEUE_PASSWORD",
+    "value": "zKJVLf3bUYHWENb7LLTqCaNeZ5ZRXpZZ",
+    "slotSetting": false
+  },
+  {
+    "name": "QUEUE_HOST",
+    "value": "redis-19725.c321.us-east-1-2.ec2.cloud.redislabs.com",
+    "slotSetting": false
+  },
+  {
+    "name": "PGHOST",
+    "value": "ashesiiconnect.postgres.database.azure.com",
+    "slotSetting": false
+  },
+  {
+    "name": "PGPORT",
+    "value": "5432",
+    "slotSetting": false
+  },
+  {
+    "name": "PGUSER",
+    "value": "iconnect",
+    "slotSetting": false
+  },
+  {
+    "name": "PGPASSWORD",
+    "value": "ashesi2023+",
+    "slotSetting": false
+  },
+  {
+    "name": "PGDATABASE",
+    "value": "ashesiiconnect",
+    "slotSetting": false
+  },
+  {
+    "name": "GOOGLE_CLIENT_ID_PROD",
+    "value": "910991037902-30fj64pb6od67v8dcddlbd8ms27hsl6t.apps.googleusercontent.com",
+    "slotSetting": false
+  },
+  {
+    "name": "GOOGLE_CLIENT_SECRET_PROD",
+    "value": "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",
+    "slotSetting": false
+  },
+  {
+    "name": "GOOGLE_CALLBACK_URL_PROD",
+    "value": "http://ashesiiconnect.azurewebsites.net/auth/google/callback",
+    "slotSetting": false
+  },
+  {
+    "name": "GOOGLE_CLIENT_ID",
+    "value": "910991037902-30fj64pb6od67v8dcddlbd8ms27hsl6t.apps.googleusercontent.com",
+    "slotSetting": false
+  },
+  {
+    "name": "GOOGLE_CLIENT_SECRET",
+    "value": "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",
+    "slotSetting": false
+  },
+  {
+    "name": "GOOGLE_CALLBACK_URL",
+    "value": "http://ashesiiconnect.azurewebsites.net/auth/google/callback",
+    "slotSetting": false
+  },
+  {
+    "name": "MICROSOFT_CLIENT_ID_PROD",
+    "value": "a0e20dc5-90c6-46b8-9250-bc4a84662af3",
+    "slotSetting": false
+  },
+  {
+    "name": "MICROSOFT_CLIENT_SECRET_PROD",
+    "value": "0Lf8Q~vwvM.jk9zJkpXE5ZODP95LQ0cDGkESpcL_",
+    "slotSetting": false
+  },
+  {
+    "name": "MICROSOFT_CALLBACK_URL_PROD",
+    "value": "http://ashesiiconnect.azurewebsites.net/auth/microsoft/callback",
+    "slotSetting": false
+  },
+  {
+    "name": "MICROSOFT_CLIENT_ID",
+    "value": "a0e20dc5-90c6-46b8-9250-bc4a84662af3",
+    "slotSetting": false
+  },
+  {
+    "name": "MICROSOFT_CLIENT_SECRET",
+    "value": "0Lf8Q~vwvM.jk9zJkpXE5ZODP95LQ0cDGkESpcL_",
+    "slotSetting": false
+  },
+  {
+    "name": "MICROSOFT_CALLBACK_URL",
+    "value": "http://localhost:8000/auth/microsoft/callback",
+    "slotSetting": false
+  }
+]
