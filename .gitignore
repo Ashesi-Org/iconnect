@@ -1,4 +1,4 @@
-./iconnect-backend/node_modules
+./iconnect-server/node_modules
 ./iconnect-frontend/node_modules
-./iconnect-backend/.github
+./iconnect-server/.github
 ./iconnect-frontend/.github
