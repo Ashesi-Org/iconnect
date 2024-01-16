@@ -40,6 +40,7 @@ export const io = new Server(server, {
   },
 });
 
+
 app.use(cors(corsMiddleware));
 app.use(session(sessionMiddleware));
 
