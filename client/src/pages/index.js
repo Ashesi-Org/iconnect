@@ -12,7 +12,8 @@ import CalendarPage from "./calendar/Calendar"
 import HotLineRooms from "./hotlinerooms/HotLineRooms"
 import HotLineRoom from "./room/HotlineRoom"
 import ComplaintDetails from "./Complaints/ComplaintDetails"  
-import LandingPage from "./LandingPage/LandingPage"  
+import LandingPage from "./LandingPage/LandingPage"
+import Room from "./room/Room"  
 
 export {
     HomePage,
@@ -29,6 +30,7 @@ export {
     CalendarPage,
     HotLineRooms,
     HotLineRoom,
-    LandingPage 
+    LandingPage,
+    Room
 }
 

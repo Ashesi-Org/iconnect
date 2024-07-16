@@ -28,8 +28,8 @@ const ProfileContent = () => {
   const [ clicked, setClicked ] = useState(false);
   const {user:current_user} = useContext(userContext);
   return (
-    <div className='flex flex-row'>
-      <ProfileSidebar clicked={clicked} setClicked={setClicked} />
+    <div className='flex flex-row w-screen h-sreen overflow-scroll'>
+      
       <div className="my-2 mx-10 w-full">
         <h2 className='text-[#333] text-[1.5rem] font-bold'>Edit Profile</h2>
         <div className='flex justify-center mt-2'>
@@ -44,19 +44,6 @@ const ProfileContent = () => {
   )
 }
 
-
-const ProfileSidebar = ({clicked, setClicked}) => {
-    return (
-        <div className="w-[300px] min-h-screen text-[1rem] font-semibold block pl-4 opacity-50 border-r-[1.3px] border-[#b9b8b8]">
-            <ul className="list-none">
-                <li className='' onClick={()=> setClicked((prev) => !prev)}><ProfileLink icon={<Pencil />} text="Edit Profile" clicked={<ChevronRight />}/></li>
-                <li onClick={()=> setClicked((prev) => !prev)}><ProfileLink icon={<Bell />} text="Notifications" /></li>
-                <li onClick={()=> setClicked((prev) => !prev)}><ProfileLink icon={<Settings />} text="Settings" /></li>
-                <li onClick={()=> setClicked((prev) => !prev)}><ProfileLink icon={<ShieldCheck />} text="Password & Security" /></li>
-            </ul>
-        </div>
-    )
-}
 
 const ProfileLink = ({icon, text, clicked}) => {
     return (

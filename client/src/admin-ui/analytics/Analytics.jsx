@@ -29,7 +29,7 @@ const Analytics = () => {
 
 const Summary = () => {
   return (
-    <div className="mt-20 flex flex-col justify-start">
+    <div className="mt-20 flex flex-col justify-start ">
       <h2 className="text-xl font-semibold">Analysis Summary</h2>
       <div className="flex flex-col justify-start">
         <div className="flex flex-row items-center gap-[3.7rem]">
@@ -65,7 +65,8 @@ const Item = ({ text, value, color }) => {
 const Charts = () => {
   return (
     <>
-      <div className='flex flex-row gap-5 mt-3'>
+     <section className='w-screen h-screen overflow-y-scroll'>
+     <div className='flex flex-row gap-5 mt-3 '>
         <div className="card w-[600px] h-[400px] rounded-lg p-5 drop-shadow-xl mb-4">
           <h2 className="text-xl font-semibold">Departments Analysis</h2>
           <StatusChart />
@@ -82,6 +83,7 @@ const Charts = () => {
         </div>
         <Summary />
       </div>
+     </section>
     </>
   );
 };
